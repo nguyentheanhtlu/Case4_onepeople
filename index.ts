@@ -4,6 +4,7 @@ import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import authRouter from "./src/router/auth.router";
 import wedRouter from "./src/router/wed.router";
+import adminRouter from "./src/router/admin.router";
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -21,7 +22,8 @@ mongoose
   .catch((error) => console.log("DB connection error:", error.message));
 
 
-app.use('',wedRouter)
+app.use('', wedRouter);
+app.use('',adminRouter)
 app.use('/auth', authRouter);
 
 app.listen(PORT,()=>{
