@@ -13,7 +13,6 @@
       href="https://fonts.googleapis.com/css?family=Muli:300,400,500,600,700,800,900&display=swap"
       rel="stylesheet"
     />
-    
 
     <!-- Css Styles -->
     <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css" />
@@ -59,18 +58,22 @@
           <div class="col-lg-6 offset-lg-3">
             <div class="register-form">
               <h2>Register</h2>
-              <form action="#">
+              <form
+                action="/auth/register"
+                method="post"
+                enctype="multipart/form-data"
+              >
                 <div class="group-input">
-                  <label for="username">Email address *</label>
-                  <input type="text" id="username" />
+                  <label for="username">Username *</label>
+                  <input type="text" id="username" name="username" />
+                </div>
+                <div class="group-input">
+                  <label for="email">Email address *</label>
+                  <input type="text" id="email" name="email" />
                 </div>
                 <div class="group-input">
                   <label for="pass">Password *</label>
-                  <input type="text" id="pass" />
-                </div>
-                <div class="group-input">
-                  <label for="con-pass">Confirm Password *</label>
-                  <input type="text" id="con-pass" />
+                  <input type="text" id="pass" name="password" />
                 </div>
                 <button type="submit" class="site-btn register-btn">
                   REGISTER

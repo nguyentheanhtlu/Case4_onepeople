@@ -29,7 +29,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const dotenv = __importStar(require("dotenv"));
 const body_parser_1 = __importDefault(require("body-parser"));
+const mongoose_1 = __importDefault(require("mongoose"));
 const auth_router_1 = __importDefault(require("./src/router/auth.router"));
+const wed_router_1 = __importDefault(require("./src/router/wed.router"));
 dotenv.config();
 const app = (0, express_1.default)();
 const PORT = process.env.PORT || 3000;
@@ -37,6 +39,12 @@ app.use(body_parser_1.default.json());
 app.set("view engine", "ejs");
 app.set("views", "./src/views");
 app.use(express_1.default.static('public'));
+const DB_URL = process.env.MONGODB_URL;
+mongoose_1.default
+    .connect(DB_URL)
+    .then(() => console.log("DB Connected!"))
+    .catch((error) => console.log("DB connection error:", error.message));
+app.use('', wed_router_1.default);
 app.use('/auth', auth_router_1.default);
 app.listen(PORT, () => {
     console.log('http://localhost:3000');

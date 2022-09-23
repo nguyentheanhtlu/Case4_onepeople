@@ -4,14 +4,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const authRouter = express_1.default.Router();
+const wedRouter = express_1.default.Router();
 const multer_1 = __importDefault(require("multer"));
 const upload = (0, multer_1.default)();
-authRouter.get('/register', (req, res) => {
-    res.render('product/login/register');
+wedRouter.get('/', (req, res) => {
+    res.render('product/shop/shop');
 });
-authRouter.get('/login', (req, res) => {
-    res.render('product/login/login');
+wedRouter.get('/product/details', (req, res) => {
+    res.render('product/shop/detail');
 });
-exports.default = authRouter;
-//# sourceMappingURL=auth.router.js.map
+exports.default = wedRouter;
+//# sourceMappingURL=wed.router.js.map
