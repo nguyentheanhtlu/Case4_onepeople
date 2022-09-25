@@ -15,15 +15,53 @@
     />
 
     <!-- Css Styles -->
-    <link rel="stylesheet" href="/product/css/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="/product/css/font-awesome.min.css" type="text/css" />
-    <link rel="stylesheet" href="/product/css/themify-icons.css" type="text/css" />
-    <link rel="stylesheet" href="/product/css/elegant-icons.css" type="text/css" />
-    <link rel="stylesheet" href="/product/css/owl.carousel.min.css" type="text/css" />
-    <link rel="stylesheet" href="/product/css/nice-select.css" type="text/css" />
-    <link rel="stylesheet" href="/product/css/jquery-ui.min.css" type="text/css" />
-    <link rel="stylesheet" href="/product/css/slicknav.min.css" type="text/css" />
+    <link
+      rel="stylesheet"
+      href="/product/css/bootstrap.min.css"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="/product/css/font-awesome.min.css"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="/product/css/themify-icons.css"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="/product/css/elegant-icons.css"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="/product/css/owl.carousel.min.css"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="/product/css/nice-select.css"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="/product/css/jquery-ui.min.css"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="/product/css/slicknav.min.css"
+      type="text/css"
+    />
     <link rel="stylesheet" href="/product/css/style.css" type="text/css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/sweetalert2@9.17.2/dist/sweetalert2.min.css"
+    />
   </head>
 
   <body>
@@ -58,11 +96,7 @@
           <div class="col-lg-6 offset-lg-3">
             <div class="register-form">
               <h2>Register</h2>
-              <form
-                action="/auth/register"
-                method="post"
-                enctype="multipart/form-data"
-              >
+              <form id="register-form">
                 <div class="group-input">
                   <label for="username">Username *</label>
                   <input type="text" id="username" name="username" />
@@ -72,8 +106,8 @@
                   <input type="text" id="email" name="email" />
                 </div>
                 <div class="group-input">
-                  <label for="pass">Password *</label>
-                  <input type="text" id="pass" name="password" />
+                  <label for="password">Password *</label>
+                  <input type="password" id="password" name="password" />
                 </div>
                 <button type="submit" class="site-btn register-btn">
                   REGISTER
@@ -138,5 +172,39 @@
     <script src="/product/js/jquery.slicknav.js"></script>
     <script src="/product/js/owl.carousel.min.js"></script>
     <script src="/product/js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.33/dist/sweetalert2.all.min.js"></script>
+    <script>
+      document
+        .getElementById("register-form")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+          let username = document.getElementById("username").value;
+          let email = document.getElementById("email").value;
+          let password = document.getElementById("password").value;
+          Swal.fire(
+            "Register!",
+            "Your file has been register.",
+            "success"
+          ).then((result) => {
+            if (result.isConfirmed) {
+              axios({
+                method: "post",
+                url: "http://localhost:3000/auth/register",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                data: {
+                  username: username,
+                  email: email,
+                  password: password,
+                },
+              }).then((response) => {
+                console.log(response);
+                window.location.href = "http://localhost:3000/auth/login";
+              });
+            }
+          });
+        });
+    </script>
   </body>
 </html>
