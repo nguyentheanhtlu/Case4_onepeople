@@ -235,11 +235,11 @@
           }).then((response) => {
             // console.log(response.data);
             console.log(response.data.messages);
-            if (response.data.messages === 'a') {
+            if (response.data.messages === 'notfound') {
               Swal.fire('Tài khoản không tồn tại !').then(()=>{
                 window.location.href = "http://localhost:3000/auth/login";
               })
-            }else if(response.data.messages === 'b'){
+            }else if(response.data.messages === 'wrongpassword'){
               Swal.fire('Sai mật khẩu !').then(()=>{
                 window.location.href = "http://localhost:3000/auth/login";
               })
