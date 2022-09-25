@@ -27,13 +27,13 @@ export class authController {
         let user = await User.findOne({ email: data.email });
         if (!user) {
             console.log("User not found");
-            return res.status(404).send({ message: "User not found" });
+            return res.status(200).json({ messages:'a'}) 
         } else {
             let comparePassword = await bcrypt.compare(data.password, user.password);
                 console.log(comparePassword);
             if (!comparePassword) {
                 console.log("Password mismatch");
-                return res.status(200).json({ messages:'mk khong dung'})     
+                return res.status(200).json({ messages:'b'})     
             } else {
                 let payload= {
                     username: user.username,
