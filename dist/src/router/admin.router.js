@@ -8,6 +8,7 @@ const adminRouter = express_1.default.Router();
 const multer_1 = __importDefault(require("multer"));
 const upload = (0, multer_1.default)();
 adminRouter.get('/admin/list', (req, res) => {
+    console.log(req.body);
     res.render('admin/table');
 });
 adminRouter.get('/admin/create/product', (req, res) => {

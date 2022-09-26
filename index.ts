@@ -8,6 +8,8 @@ import { ConnectDB } from "./src/models/ConnectDB";
 import authRouter from "./src/router/auth.router";
 import wedRouter from "./src/router/wed.router";
 import adminRouter from "./src/router/admin.router";
+import * as AuthCheck from "./src/middleware/auth.checkCookie";
+
 dotenv.config();
 const app = express();
 const { PORT, KEY_SESSION } = process.env;
@@ -28,14 +30,16 @@ app.set("views", "./src/views");
 app.use(express.static("src/public"));
 
 
-app.use(
-  session({
-    secret: "SECRET",
-    resave: false,
-    saveUninitialized: true,
-    cookie: { maxAge: 60 * 60 * 1000 },
-  })
-);
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: true }
+}))
+
+app.use(passport.initialize());
+app.use(passport.authenticate('session'));
+
 app.use("", wedRouter);
 app.use("", adminRouter);
 app.use("/auth", authRouter);

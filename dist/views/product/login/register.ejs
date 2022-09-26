@@ -100,15 +100,31 @@
                 <div class="group-input">
                   <label for="username">Username *</label>
                   <input type="text" id="username" name="username" />
+                  <a id="err-name"></a>
                 </div>
+
                 <div class="group-input">
                   <label for="email">Email address *</label>
                   <input type="text" id="email" name="email" />
+                  <a id="err-email"></a>
                 </div>
+
                 <div class="group-input">
                   <label for="password">Password *</label>
                   <input type="password" id="password" name="password" />
+                  <a id="err-password"></a>
                 </div>
+
+                <div class="group-input">
+                  <label for="confirmpassword">Confirmpassword *</label>
+                  <input
+                    type="password"
+                    id="confirmpassword"
+                    name="confirmpassword"
+                  />
+                  <a id="err-confirmpassword"></a>
+                </div>
+
                 <button type="submit" class="site-btn register-btn">
                   REGISTER
                 </button>
@@ -181,30 +197,141 @@
           let username = document.getElementById("username").value;
           let email = document.getElementById("email").value;
           let password = document.getElementById("password").value;
-          Swal.fire(
-            "Register!",
-            "Your file has been register.",
-            "success"
-          ).then((result) => {
-            if (result.isConfirmed) {
-              axios({
-                method: "post",
-                url: "http://localhost:3000/auth/register",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                data: {
-                  username: username,
-                  email: email,
-                  password: password,
-                },
-              }).then((response) => {
-                console.log(response);
+          let confirmpassword =
+            document.getElementById("confirmpassword").value;
+          axios({
+            method: "post",
+            url: "http://localhost:3000/auth/register",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            data: {
+              username: username,
+              email: email,
+              password: password,
+              confirmpassword: confirmpassword,
+            },
+          }).then((response) => {
+            // console.log(response.data);
+            if (response.data.message) {
+              // console.log(response.data.message);
+              checkUsernam(response.data.message);
+              checkEmail(response.data.message);
+              checkPassword(response.data.message);
+              checkConfirmpassword(response.data.message);
+            } else if (response.data.emailmessages) {
+              // console.log(response.data.emailmessages);
+              resertHtml();
+            }else if (response.data.usernamemessages){
+              console.log(response.data.usernamemessages);
+              resertForm();
+            }
+             else {
+              console.log(2);
+              Swal.fire(
+                "Register!",
+                "Your file has been register.",
+                "success"
+              ).then((result) => {
+                console.log(result.isConfirmed);
                 window.location.href = "http://localhost:3000/auth/login";
               });
             }
           });
         });
+
+        function resertForm(){
+        document.getElementById("username").value = "";
+        document.getElementById("email").value = "";
+        document.getElementById("password").value = "";
+        document.getElementById("confirmpassword").value = "";
+        document.getElementById(
+          "err-name"
+        ).innerHTML = ` <div class="alert alert-danger alert-dismissible fade show" role="alert">
+         <strong>This account has already existed !</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+         <span aria-hidden="true">&times;</span>
+          </button>
+        </div`;
+      }
+
+      function resertHtml() {
+        document.getElementById("username").value = "";
+        document.getElementById("email").value = "";
+        document.getElementById("password").value = "";
+        document.getElementById("confirmpassword").value = "";
+        document.getElementById(
+          "err-email"
+        ).innerHTML = ` <div class="alert alert-danger alert-dismissible fade show" role="alert">
+         <strong>Email already exists !</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+         <span aria-hidden="true">&times;</span>
+          </button>
+        </div`;
+
+      }
+
+      function checkUsernam(response) {
+        for (var i = 0; i < response.length; i++) {
+          if (response[i].nameErr === "username") {
+            console.log(response[i].error);
+            document.getElementById(
+              "err-name"
+            ).innerHTML = `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+         <strong>${response[i].error}!</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+         <span aria-hidden="true">&times;</span>
+          </button>
+        </div`;
+          }
+        }
+      }
+
+      function checkEmail(response) {
+        for (var i = 0; i < response.length; i++) {
+          if (response[i].nameErr === "email") {
+            console.log(response[i].error);
+            document.getElementById(
+              "err-email"
+            ).innerHTML = `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+         <strong>${response[i].error}!</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+         <span aria-hidden="true">&times;</span>
+          </button>
+        </div`;
+          }
+        }
+      }
+      function checkPassword(response) {
+        for (var i = 0; i < response.length; i++) {
+          if (response[i].nameErr === "password") {
+            console.log(response[i].error);
+            document.getElementById(
+              "err-password"
+            ).innerHTML = `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+         <strong>${response[i].error}!</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+         <span aria-hidden="true">&times;</span>
+          </button>
+        </div`;
+          }
+        }
+      }
+      function checkConfirmpassword(response) {
+        for (var i = 0; i < response.length; i++) {
+          if (response[i].nameErr === "confirmpassword") {
+            console.log(response[i].error);
+            document.getElementById(
+              "err-confirmpassword"
+            ).innerHTML = `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+         <strong>${response[i].error}!</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+         <span aria-hidden="true">&times;</span>
+          </button>
+        </div`;
+          }
+        }
+      }
     </script>
   </body>
 </html>

@@ -236,26 +236,22 @@
             // console.log(response.data);
             console.log(response.data.messages);
             if (response.data.messages === 'notfound') {
-              Swal.fire('Tài khoản không tồn tại !').then(()=>{
-                window.location.href = "http://localhost:3000/auth/login";
-              })
+              Swal.fire('Tài khoản không tồn tại !')
             }else if(response.data.messages === 'wrongpassword'){
-              Swal.fire('Sai mật khẩu !').then(()=>{
-                window.location.href = "http://localhost:3000/auth/login";
-              })
+              Swal.fire('Sai mật khẩu !')
             }
              else {
-              Swal.fire('Chúc mừng bạn. Đăng nhập thành công !').then((result)=>{
                 let token = response.data;
               // console.log(token);
               window.localStorage.setItem("token", JSON.stringify(token.token));
-             
-              window.location.href = "http://localhost:3000/";
-              })
-             
+              setTimeout(locationHome, 1500);
             }
           });
         });
+
+        function locationHome(){
+          window.location.href = "http://localhost:3000/";
+        }
     </script>
   </body>
 </html>

@@ -4,7 +4,6 @@ import { Request, Response } from 'express'
 import User from '../models/schemas/user.models';
 import auth from "../middleware/auth.middleware";
 
-
 export class authController { 
 
     showFormLogin = (req: Request, res: Response) => { 
@@ -15,16 +14,38 @@ export class authController {
         res.render('product/login/register')
     };
 
-    register = async (req: Request, res: Response) => { 
+    register = async (req: Request, res: Response) => {
         let user = req.body;
-        console.log(user);
-        user.password = await bcrypt.hash(user.password, 10);
-        user = await User.create(user);
-        return res.status(200).json({ user: user });
-    }
+        let Email = user.email;
+        let userByEmail = await User.findOne({ email: Email });
+        let userByUsername = await User.findOne({ username: user.username });
+        // console.log(userByEmail)
+        // console.log(userByUsername);
+        if (userByUsername) {
+            return res.json({ usernamemessages: 'Username đã tồn tại !' }) 
+        }
+         else if (userByEmail) {
+            return res.json({ emailmessages: 'Email đã tồn tại !' })
+        } else {
+            user.password = await bcrypt.hash(user.password, 10);
+            let data = {
+                username: user.username,
+                email: user.email,
+                password: user.password,
+                facebook_id: '',
+                google_id: '',
+                role: 'user'
+    
+            }
+            let newUser = await User.create(data);
+            return res.status(200).json({ user: newUser });
+        }
+    };
+
     login = async (req: Request, res: Response) => { 
         let data = req.body;
         let user = await User.findOne({ email: data.email });
+        console.log(user);
         if (!user) {
             console.log("User not found");
             return res.status(200).json({ messages:'notfound'}) 
@@ -37,7 +58,8 @@ export class authController {
             } else {
                 let payload= {
                     username: user.username,
-                    password: user.password
+                    password: user.password,
+                    role: user.role
                 }
                 let secretKey = process.env.SECRET_KEY
                 let token = await jwt.sign(payload, secretKey, {
@@ -46,9 +68,8 @@ export class authController {
                 const response = {
                     "token": token
                   };
-                  console.log(response);
+                //   console.log(response);
                   return res.status(200).json(response);
-
             }
         }
             

@@ -1,0 +1,1 @@
+{"version":3,"file":"checkPermission.middleware.js","sourceRoot":"","sources":["../../../src/middleware/checkPermission.middleware.ts"],"names":[],"mappings":";;AAEA,MAAM,yBAAyB,GAAG,CAAC,GAAY,EAAE,GAAa,EAAE,IAAkB,EAAE,EAAE;IAClF,IAAI,SAAS,GAAG,GAAG,CAAC,IAAI,CAAC;AAE7B,CAAC,CAAA"}

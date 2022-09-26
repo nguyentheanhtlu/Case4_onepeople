@@ -7,6 +7,7 @@ exports.authLogin = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const authLogin = (req, res, next) => {
     let authorization = req.headers.authorization;
+    console.log(authorization);
     if (authorization) {
         let accessToken = req.headers.authorization.split('')[1];
         if (!accessToken) {

@@ -486,6 +486,13 @@
     <script src="/product/js/jquery.slicknav.js"></script>
     <script src="/product/js/owl.carousel.min.js"></script>
     <script src="/product/js/main.js"></script>
+    <script>
+        let token = JSON.parse(localStorage.getItem('token'));
+        if(!toke){
+            window.location.href = "http://localhost:3000/auth/login";
+        }
+        
+    </script>
 </body>
 
 </html>

@@ -30,6 +30,7 @@ const express_1 = __importDefault(require("express"));
 const dotenv = __importStar(require("dotenv"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const express_session_1 = __importDefault(require("express-session"));
+const passport_1 = __importDefault(require("passport"));
 const ConnectDB_1 = require("./src/models/ConnectDB");
 const auth_router_1 = __importDefault(require("./src/router/auth.router"));
 const wed_router_1 = __importDefault(require("./src/router/wed.router"));
@@ -51,11 +52,13 @@ app.set("view engine", "ejs");
 app.set("views", "./src/views");
 app.use(express_1.default.static("src/public"));
 app.use((0, express_session_1.default)({
-    secret: "SECRET",
+    secret: 'keyboard cat',
     resave: false,
     saveUninitialized: true,
-    cookie: { maxAge: 60 * 60 * 1000 },
+    cookie: { secure: true }
 }));
+app.use(passport_1.default.initialize());
+app.use(passport_1.default.authenticate('session'));
 app.use("", wed_router_1.default);
 app.use("", admin_router_1.default);
 app.use("/auth", auth_router_1.default);
