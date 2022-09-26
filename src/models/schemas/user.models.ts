@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
   facebook_id: String,
   google_id: String,
   role: String,
+  email_verify:String,
 });
 
 const User = mongoose.model("Users", userSchema);

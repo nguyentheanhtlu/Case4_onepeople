@@ -97,7 +97,7 @@
           <div class="col-lg-12">
             <div class="breadcrumb-text">
               <a href="#"><i class="fa fa-home"></i> Home</a>
-              <span>Login</span>
+              <span>Check Register</span>
             </div>
           </div>
         </div>
@@ -111,48 +111,15 @@
         <div class="row">
           <div class="col-lg-6 offset-lg-3">
             <div class="login-form">
-              <h2>Login</h2>
-              <div style="text-align: center">
-                <a href="/auth/facebook"
-                  ><ion-icon
-                    style="font-size: 80px"
-                    name="logo-facebook"
-                  ></ion-icon
-                ></a>
-                <a href="/auth/google">
-                  <ion-icon
-                    style="font-size: 80px"
-                    name="logo-google"
-                  ></ion-icon>
-                </a>
-              </div>
-              <form id="login-form" enctype="multipart/form-data">
-                <div class="group-input">
-                  <label for="email">Email address *</label>
-                  <input type="text" id="email" name="email" />
-                </div>
-                <div class="group-input">
-                  <label for="password">Password *</label>
-                  <input type="password" id="password" name="password" />
-                </div>
-                <div class="group-input gi-check">
-                  <div class="gi-more">
-                    <label for="save-pass">
-                      Save Password
-                      <input type="checkbox" id="save-pass" />
-                      <span class="checkmark"></span>
-                    </label>
-                    <a href="#" class="forget-pass">Forget your Password</a>
-                  </div>
-                </div>
-                <button type="submit" class="site-btn login-btn">
-                  Sign In
-                </button>
-              </form>
+              <h2>Please check your email !</h2>
+
               <div class="switch-login">
                 <a href="/auth/register" class="or-login"
                   >Or Create An Account</a
                 >
+              </div>
+              <div class="switch-login">
+                <a href="/auth/login" class="or-login">Or Login Account</a>
               </div>
             </div>
           </div>
@@ -211,51 +178,5 @@
     <script src="/product/js/owl.carousel.min.js"></script>
     <script src="/product/js/main.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.33/dist/sweetalert2.all.min.js"></script>
-    <script>
-      document
-        .getElementById("login-form")
-        .addEventListener("submit", function (event) {
-          // tat viec submit form len server
-          event.preventDefault();
-
-          // goi request login
-          let email = document.getElementById("email").value;
-          let password = document.getElementById("password").value;
-
-          axios({
-            method: "post",
-            url: "http://localhost:3000/auth/login",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            data: {
-              email: email,
-              password: password,
-            },
-          }).then((response) => {
-            console.log(response);
-            console.log("------------");
-            console.log(response.data.messages);
-            if (response.data.messages === "notfound") {
-              Swal.fire("Tài khoản không tồn tại !");
-            } else if (response.data.messages === "wrongpassword") {
-              Swal.fire("Sai mật khẩu !");
-            } else if (response.data.messages === "unconfirmed") {
-              Swal.fire(
-                "Tài khoản chưa được xác thực ! Vui lòng xác thực tài khoản"
-              );
-            } else {
-              let token = response.data;
-              // console.log(token);
-              window.localStorage.setItem("token", JSON.stringify(token.token));
-              // setTimeout(locationHome, 1500);
-            }
-          });
-        });
-
-      // function locationHome(){
-      //   window.location.href = "http://localhost:3000/";
-      // }
-    </script>
   </body>
 </html>

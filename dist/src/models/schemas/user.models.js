@@ -11,6 +11,7 @@ const userSchema = new mongoose_1.default.Schema({
     facebook_id: String,
     google_id: String,
     role: String,
+    email_verify: String,
 });
 const User = mongoose_1.default.model("Users", userSchema);
 exports.default = User;

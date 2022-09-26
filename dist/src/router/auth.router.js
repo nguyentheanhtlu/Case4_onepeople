@@ -40,6 +40,8 @@ const validation_1 = require("../middleware/validation");
 const upload = (0, multer_1.default)();
 authRouter.get("/register", AuthController.showFormRegister);
 authRouter.post("/register", upload.none(), validation_1.validateUserSignUp, validation_1.userValidation, AuthController.register);
+authRouter.get('/verify', AuthController.verify);
+authRouter.get('/checkLogin', AuthController.checkLogin);
 authRouter.get("/login", AuthController.showFormLogin);
 authRouter.post("/login", upload.none(), AuthController.login);
 authRouter.get("/facebook", auth_middleware_1.default.authenticate("facebook", { scope: "email" }));
