@@ -19,7 +19,7 @@ class ProductController {
             let product = req.body;
             if (files.image && product.name) {
                 let image = files.image;
-                image.mv('./public/storage/' + image.name);
+                image.mv('./src/public/storage/' + image.name);
                 product.image = 'storage/' + image.name;
                 const products = new products_model_1.default(product);
                 await products.save();

@@ -21,7 +21,7 @@ export class ProductController{
             if (files.image && product.name) {
                 // @ts-ignore
                 let image = files.image as UploadedFile;
-                image.mv('./public/storage/' + image.name);
+                image.mv('./src/public/storage/' + image.name);
                 product.image = 'storage/' + image.name;
                 const products = new ProductModel(product)
                 await products.save();
