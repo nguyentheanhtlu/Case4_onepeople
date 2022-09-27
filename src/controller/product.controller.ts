@@ -25,7 +25,7 @@ export class ProductController{
                 product.image = 'storage/' + image.name;
                 const products = new ProductModel(product)
                 await products.save();
-                res.redirect(301, '/shop');
+                res.redirect(301, '/admin/list/product');
             } else {
                 res.render('error');
             }
@@ -34,7 +34,7 @@ export class ProductController{
         }
     }
 
-    async productList(req: Request, res: Response, next: NextFunction){
+    async productList(req: Request, res: Response, next: NextFunction) {
         let categories = await Category.find();
         let product = await ProductModel.find().populate('category');
         res.render('admin/product-list',{categories : categories, product : product});

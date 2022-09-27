@@ -23,7 +23,7 @@ class ProductController {
                 product.image = 'storage/' + image.name;
                 const products = new products_model_1.default(product);
                 await products.save();
-                res.redirect(301, '/shop');
+                res.redirect(301, '/admin/list/product');
             }
             else {
                 res.render('error');
