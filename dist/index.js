@@ -51,7 +51,7 @@ app.use(body_parser_1.default.json());
 app.use(body_parser_1.default.urlencoded({ extended: false }));
 app.set("view engine", "ejs");
 app.set("views", "./src/views");
-app.use(express_1.default.static("./src/public"));
+app.use(express_1.default.static("src/public"));
 app.use((0, express_fileupload_1.default)({
     createParentPath: true
 }));
