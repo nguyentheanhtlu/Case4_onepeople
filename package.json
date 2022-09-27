@@ -9,7 +9,7 @@
     "lint": "tslint -c tslint.json -p tsconfig.json --fix",
     "tsc": "tsc",
     "build": "npm-run-all clean tsc copy-assets",
-    "start:dev": "npm-run-all build start",
+    "start:dev": "tsc-watch -p tsconfig.build.json --onSuccess \"node dist/index.js\"",
     "dev": "nodemon --watch src -e ts,ejs --exec npm run dev:start",
     "start": "node .",
     "test": "jest --runInBand --detectOpenHandles ./dist/tests"
@@ -17,7 +17,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/express": "^4.17.13",
+    "@types/express": "^4.17.14",
     "@types/express-ejs-layouts": "^2.5.0",
     "@types/express-fileupload": "^1.4.1",
     "@types/jsonwebtoken": "^8.5.8",
@@ -47,6 +47,8 @@
     "passport-facebook": "^3.0.0",
     "passport-google-oauth20": "^2.0.0",
     "passport-local": "^1.0.0",
+    "tsc": "^2.0.4",
+    "tsc-watch": "^5.0.3",
     "validator": "^13.7.0"
   },
   "devDependencies": {
