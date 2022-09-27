@@ -13,24 +13,6 @@ dotenv.config();
 const key1 = crypto.randomBytes(32).toString('hex');
 
 passport.use(
-    new LocalStrategy(async (username, password, done) => {
-        console.log(key1);
-        console.log(username, password);
-        const user = await User.findOne({ username: username });
-        console.log(user);
-      if (!user) {
-        return done(null, false, { message: "Incorrect username and password" });
-      }
-  
-      if (user.password !== password) {
-        return done(null, false, { message: "Incorrect username and password" });
-      }
-  
-      return done(null, user);
-    })
-);
-
-passport.use(
     new FacebookStrategy(
       {
         clientID: process.env.FACEBOOK_CLIENT_ID,
@@ -39,10 +21,24 @@ passport.use(
         profileFields: ["id", "displayName", "photos", "email"],
       },
       function (accessToken, refreshToken, profile, done) {
-        process.nextTick(function () {
-          console.log({ accessToken });
-          console.log({ refreshToken });
-          console.log({ profile });
+        process.nextTick(async function () {
+          let id_Facebook = profile.id;
+          let username = profile._json.name;
+          let email = profile._json.email;
+          let data = {
+            facebook_id: id_Facebook,
+            username: username,
+            email: email,
+            password: '',
+            google_id: '',
+            role: 'user',
+            email_verify:''
+          }
+          let user = await User.create(data)
+
+          // console.log({ accessToken });
+          // console.log({ profile });
+          // console.log(id_Facebook,username,email);
           return done(null, profile);
         });
       }
@@ -57,17 +53,28 @@ passport.use(
         passReqToCallback: true
       },
       function verify(request, accessToken, refreshToken, profile, done) {
-        process.nextTick(function () {
-          console.log({ accessToken });
-          console.log({ refreshToken });
-          console.log({ profile});
+        process.nextTick(async function () {
+          let id_Google = profile.id;
+          let username = profile._json.name;
+          let email = profile._json.email;
+          let data = {
+            google_id: id_Google,
+            username: username,
+            email: email,
+            password: '',
+            facebook_id: '',
+            role: 'user',
+            email_verify:''
+          }
+          let user = await User.create(data)
+          // console.log({ accessToken });
+          // console.log({ refreshToken });
+          // console.log({ profile});
           return done(null, profile);
         });
       }
     )
   );
-
-
 
   passport.serializeUser(function (user, done) {
     done(null, user);
@@ -76,8 +83,5 @@ passport.use(
   passport.deserializeUser(function (obj, done) {
     done(null, obj);
   });
-
-  
-
 
 export default passport;

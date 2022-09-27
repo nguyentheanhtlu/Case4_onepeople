@@ -99,19 +99,37 @@
               <form id="register-form">
                 <div class="group-input">
                   <label for="username">Username *</label>
-                  <input type="text" id="username" name="username" />
+                  <input
+                    onchange="clickUsername()"
+                    type="text"
+                    id="username"
+                    name="username"
+                    value=""
+                  />
                   <a id="err-name"></a>
                 </div>
 
                 <div class="group-input">
                   <label for="email">Email address *</label>
-                  <input type="text" id="email" name="email" />
+                  <input
+                    onchange="clickEmail()"
+                    type="text"
+                    id="email"
+                    name="email"
+                    value=""
+                  />
                   <a id="err-email"></a>
                 </div>
 
                 <div class="group-input">
                   <label for="password">Password *</label>
-                  <input type="password" id="password" name="password" />
+                  <input
+                    onchange="clickPassword()"
+                    type="password"
+                    id="password"
+                    name="password"
+                    value=""
+                  />
                   <a id="err-password"></a>
                 </div>
 
@@ -121,6 +139,8 @@
                     type="password"
                     id="confirmpassword"
                     name="confirmpassword"
+                    onchange="clickConfirmpassword()"
+                    value=""
                   />
                   <a id="err-confirmpassword"></a>
                 </div>
@@ -190,6 +210,35 @@
     <script src="/product/js/main.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.33/dist/sweetalert2.all.min.js"></script>
     <script>
+      function clickUsername() {
+        let a = document.getElementById("username").value;
+        console.log(a);
+        if (a) {
+          document.getElementById("err-name").innerHTML = "";
+        }
+      }
+      function clickEmail() {
+        let y = document.getElementById("email").value;
+        console.log(y);
+        if (y) {
+          document.getElementById("err-email").innerHTML = "";
+        }
+      }
+      function clickPassword() {
+        let b = document.getElementById("password").value;
+        console.log(b);
+        if (b) {
+          document.getElementById("err-password").innerHTML = "";
+        }
+      }
+      function clickConfirmpassword() {
+        let c = document.getElementById("confirmpassword").value;
+        console.log(c);
+        if (c) {
+          document.getElementById("err-confirmpassword").innerHTML = "";
+        }
+      }
+
       document
         .getElementById("register-form")
         .addEventListener("submit", function (event) {
@@ -223,11 +272,10 @@
             } else if (response.data.emailmessages) {
               // console.log(response.data.emailmessages);
               resertHtml();
-            }else if (response.data.usernamemessages){
+            } else if (response.data.usernamemessages) {
               console.log(response.data.usernamemessages);
               resertForm();
-            }
-             else {
+            } else {
               console.log(2);
               Swal.fire(
                 "Register!",
@@ -241,7 +289,7 @@
           });
         });
 
-        function resertForm(){
+      function resertForm() {
         document.getElementById("username").value = "";
         document.getElementById("email").value = "";
         document.getElementById("password").value = "";
@@ -269,7 +317,6 @@
          <span aria-hidden="true">&times;</span>
           </button>
         </div`;
-
       }
 
       function checkUsernam(response) {

@@ -38,29 +38,29 @@ const crypto_1 = __importDefault(require("crypto"));
 const dotenv = __importStar(require("dotenv"));
 dotenv.config();
 const key1 = crypto_1.default.randomBytes(32).toString('hex');
-passport_1.default.use(new LocalStrategy(async (username, password, done) => {
-    console.log(key1);
-    console.log(username, password);
-    const user = await user_models_1.default.findOne({ username: username });
-    console.log(user);
-    if (!user) {
-        return done(null, false, { message: "Incorrect username and password" });
-    }
-    if (user.password !== password) {
-        return done(null, false, { message: "Incorrect username and password" });
-    }
-    return done(null, user);
-}));
 passport_1.default.use(new FacebookStrategy({
     clientID: process.env.FACEBOOK_CLIENT_ID,
     clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
     callbackURL: "http://localhost:3000/auth/facebook/callback",
     profileFields: ["id", "displayName", "photos", "email"],
 }, function (accessToken, refreshToken, profile, done) {
-    process.nextTick(function () {
+    process.nextTick(async function () {
+        let id_Facebook = profile.id;
+        let username = profile._json.name;
+        let email = profile._json.email;
+        let data = {
+            facebook_id: id_Facebook,
+            username: username,
+            email: email,
+            password: '',
+            google_id: '',
+            role: 'user',
+            email_verify: ''
+        };
+        let user = await user_models_1.default.create(data);
         console.log({ accessToken });
-        console.log({ refreshToken });
         console.log({ profile });
+        console.log(id_Facebook, username, email);
         return done(null, profile);
     });
 }));
@@ -70,7 +70,20 @@ passport_1.default.use(new GoogleStrategy({
     callbackURL: "http://localhost:3000/auth/google/callback",
     passReqToCallback: true
 }, function verify(request, accessToken, refreshToken, profile, done) {
-    process.nextTick(function () {
+    process.nextTick(async function () {
+        let id_Google = profile.id;
+        let username = profile._json.name;
+        let email = profile._json.email;
+        let data = {
+            google_id: id_Google,
+            username: username,
+            email: email,
+            password: '',
+            facebook_id: '',
+            role: 'user',
+            email_verify: ''
+        };
+        let user = await user_models_1.default.create(data);
         console.log({ accessToken });
         console.log({ refreshToken });
         console.log({ profile });
