@@ -35,6 +35,7 @@ const ConnectDB_1 = require("./src/models/ConnectDB");
 const auth_router_1 = __importDefault(require("./src/router/auth.router"));
 const wed_router_1 = __importDefault(require("./src/router/wed.router"));
 const admin_router_1 = __importDefault(require("./src/router/admin.router"));
+const express_fileupload_1 = __importDefault(require("express-fileupload"));
 dotenv.config();
 const app = (0, express_1.default)();
 const { PORT, KEY_SESSION } = process.env;
@@ -50,7 +51,10 @@ app.use(body_parser_1.default.json());
 app.use(body_parser_1.default.urlencoded({ extended: false }));
 app.set("view engine", "ejs");
 app.set("views", "./src/views");
-app.use(express_1.default.static("src/public"));
+app.use(express_1.default.static("./src/public"));
+app.use((0, express_fileupload_1.default)({
+    createParentPath: true
+}));
 app.use((0, express_session_1.default)({
     secret: "SECRET",
     resave: false,
@@ -59,8 +63,8 @@ app.use((0, express_session_1.default)({
 }));
 app.use(passport_1.default.initialize());
 app.use(passport_1.default.authenticate('session'));
-app.use("", wed_router_1.default);
-app.use("", admin_router_1.default);
+app.use("/", wed_router_1.default);
+app.use("/", admin_router_1.default);
 app.use("/auth", auth_router_1.default);
 app.listen(PORT, () => {
     console.log("http://localhost:3000");

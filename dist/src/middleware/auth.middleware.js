@@ -58,9 +58,6 @@ passport_1.default.use(new FacebookStrategy({
             email_verify: ''
         };
         let user = await user_models_1.default.create(data);
-        console.log({ accessToken });
-        console.log({ profile });
-        console.log(id_Facebook, username, email);
         return done(null, profile);
     });
 }));
@@ -84,9 +81,6 @@ passport_1.default.use(new GoogleStrategy({
             email_verify: ''
         };
         let user = await user_models_1.default.create(data);
-        console.log({ accessToken });
-        console.log({ refreshToken });
-        console.log({ profile });
         return done(null, profile);
     });
 }));

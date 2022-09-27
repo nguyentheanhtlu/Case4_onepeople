@@ -8,6 +8,7 @@ import { ConnectDB } from "./src/models/ConnectDB";
 import authRouter from "./src/router/auth.router";
 import wedRouter from "./src/router/wed.router";
 import adminRouter from "./src/router/admin.router";
+import fileUpload from 'express-fileupload';
 
 dotenv.config();
 const app = express();
@@ -28,6 +29,9 @@ app.set("view engine", "ejs");
 app.set("views", "./src/views");
 app.use(express.static("src/public"));
 
+app.use(fileUpload({
+  createParentPath: true
+}));
 
 app.use(
   session({
@@ -40,8 +44,8 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.authenticate('session'));
 
-app.use("", wedRouter);
-app.use("", adminRouter);
+app.use("/", wedRouter);
+app.use("/", adminRouter);
 app.use("/auth", authRouter);
 
 app.listen(PORT, () => {
