@@ -12,6 +12,10 @@ const product = new product_controller_1.ProductController();
 adminRouter.get('/admin/list', (req, res, next) => {
     admin.showAdminPage(req, res, next);
 });
+adminRouter.post('/admin/list', (req, res, next) => {
+    let keyword = req.body.keywords;
+    admin.find(req, res, keyword);
+});
 adminRouter.get('/admin/create/product', (req, res, next) => {
     product.formCreateProduct(req, res, next).catch(err => {
         console.log(err.message);
