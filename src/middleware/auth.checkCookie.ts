@@ -1,4 +1,4 @@
-export function checkLogin(req: any, res: any, next: any) {
+export const checkLogin=(req: any, res: any, next: any) => {
     if (req.isAuthenticated()) {
         next();
     } else {

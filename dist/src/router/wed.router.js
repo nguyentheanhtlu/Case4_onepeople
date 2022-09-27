@@ -4,9 +4,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const wedRouter = express_1.default.Router();
 const multer_1 = __importDefault(require("multer"));
 const upload = (0, multer_1.default)();
+const wedRouter = express_1.default.Router();
 wedRouter.get('/', (req, res) => {
     res.render('product/shop/shop');
 });

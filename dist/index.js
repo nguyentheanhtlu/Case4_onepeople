@@ -52,10 +52,10 @@ app.set("view engine", "ejs");
 app.set("views", "./src/views");
 app.use(express_1.default.static("src/public"));
 app.use((0, express_session_1.default)({
-    secret: 'keyboard cat',
+    secret: "SECRET",
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: true }
+    cookie: { maxAge: 60 * 60 * 1000 },
 }));
 app.use(passport_1.default.initialize());
 app.use(passport_1.default.authenticate('session'));

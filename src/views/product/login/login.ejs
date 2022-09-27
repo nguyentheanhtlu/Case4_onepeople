@@ -227,6 +227,7 @@
             url: "http://localhost:3000/auth/login",
             headers: {
               "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
             data: {
               email: email,
@@ -248,14 +249,13 @@
               let role = response.data.role;
               console.log(role);
               if (role == "admin") {
+                let token = response.data.token;
+                window.localStorage.setItem("token", JSON.stringify(token));
                 window.location.href = "http://localhost:3000/admin/list";
               } else {
                 let token = response.data.token;
-                // console.log(token);
-                window.localStorage.setItem(
-                  "token",
-                  JSON.stringify(token.token)
-                );
+                console.log(token);
+                window.localStorage.setItem("token", JSON.stringify(token));
                 setTimeout(locationHome, 1500);
               }
             }

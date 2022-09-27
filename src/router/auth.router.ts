@@ -1,4 +1,3 @@
-
 import express from "express";
 import { authController } from "../controller/auth.controller";
 import auth from "../middleware/auth.middleware";
@@ -19,7 +18,6 @@ import multer from "multer";
 import {userValidation, validateUserSignUp} from "../middleware/validation";
 
 const upload = multer();
-// authRouter.use(authLogin)
 
 authRouter.get("/register", AuthController.showFormRegister);
 

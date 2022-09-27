@@ -6,27 +6,26 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.authLogin = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const authLogin = (req, res, next) => {
-    let authorization = req.headers.authorization;
+    let authorization = req.headers['authorization'];
     console.log(authorization);
     if (authorization) {
-        let accessToken = req.headers.authorization.split('')[1];
+        let accessToken = authorization.split('')[1];
         if (!accessToken) {
-            res.redirect('/auth/login');
+            res.status(401).json({ message: "Access token is required1." });
         }
         else {
             jsonwebtoken_1.default.verify(accessToken, process.env.SECRET_KEY, (err, data) => {
                 if (err) {
-                    res.redirect('/auth/login');
+                    res.status(401).json({ message: "Access token is required2." });
                 }
                 else {
-                    req.decoded = data;
                     next();
                 }
             });
         }
     }
     else {
-        res.redirect('/auth/login');
+        res.status(401).json({ message: "Access token is required3." });
     }
 };
 exports.authLogin = authLogin;

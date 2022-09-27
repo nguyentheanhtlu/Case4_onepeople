@@ -1,8 +1,9 @@
+import { checkLogin } from './../middleware/auth.checkCookie';
 import express from "express";
-const wedRouter = express.Router();
-
 import multer from "multer";
 const upload = multer();
+
+const wedRouter = express.Router();
 
 wedRouter.get('/', (req, res) => {
     res.render('product/shop/shop')

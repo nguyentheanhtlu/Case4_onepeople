@@ -227,6 +227,7 @@
             url: "http://localhost:3000/auth/login",
             headers: {
               "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
             data: {
               email: email,
@@ -245,17 +246,25 @@
                 "Tài khoản chưa được xác thực ! Vui lòng xác thực tài khoản"
               );
             } else {
-              let token = response.data;
-              // console.log(token);
-              window.localStorage.setItem("token", JSON.stringify(token.token));
-              // setTimeout(locationHome, 1500);
+              let role = response.data.role;
+              console.log(role);
+              if (role == "admin") {
+                let token = response.data.token;
+                window.localStorage.setItem("token", JSON.stringify(token));
+                window.location.href = "http://localhost:3000/admin/list";
+              } else {
+                let token = response.data.token;
+                console.log(token);
+                window.localStorage.setItem("token", JSON.stringify(token));
+                setTimeout(locationHome, 1500);
+              }
             }
           });
         });
 
-      // function locationHome(){
-      //   window.location.href = "http://localhost:3000/";
-      // }
+      function locationHome() {
+        window.location.href = "http://localhost:3000/";
+      }
     </script>
   </body>
 </html>

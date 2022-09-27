@@ -94,6 +94,8 @@ export class authController {
             role: user.role,
         };
         //   console.log(response);
+        //   let a = req.headers['authorization']
+        //   console.log(a);
         return res.status(200).json(response);
       }
     }
