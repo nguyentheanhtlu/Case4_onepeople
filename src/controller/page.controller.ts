@@ -7,7 +7,6 @@ export class PageController {
     }
 
     showHomePage(req: Request, res: Response, next: NextFunction) {
-
         res.render('product/index');
     };
 
@@ -24,9 +23,22 @@ export class PageController {
     };
 
     async showShop(req: Request, res: Response, next: NextFunction){
-        let product = await ProductModel.find();
-        console.log(product)
-        res.render('product/shop', {product : product});
+        let limit = 10;
+        let offset = 0;
+        let page = 1
+        let query = req.query.page;
+        if(query){
+            page = +query;
+            offset = (page - 1)*limit;
+        }
+        let product = await ProductModel.find().limit(limit).skip(offset);
+        let totalProduct = await ProductModel.countDocuments({});
+        let totalPage = Math.ceil(totalProduct/limit);
+        res.render('product/shop', {
+            product : product,
+            totalPage : totalPage,
+            currentPage : page
+        });
     };
 
     showMenShop(req: Request, res: Response, next: NextFunction){
