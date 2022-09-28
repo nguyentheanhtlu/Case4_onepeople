@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { LocalStorage } from 'node-localstorage';
+import { LocalStorage } from "node-localstorage";
 export declare const localStorage: LocalStorage;
 export declare class authController {
     showFormLogin: (req: Request, res: Response) => void;

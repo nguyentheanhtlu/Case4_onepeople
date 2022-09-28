@@ -39,7 +39,7 @@ const multer_1 = __importDefault(require("multer"));
 const validation_1 = require("../middleware/validation");
 const upload = (0, multer_1.default)();
 authRouter.get("/register", AuthController.showFormRegister);
-authRouter.post("/register", upload.none(), validation_1.validateUserSignUp, validation_1.userValidation, AuthController.register);
+authRouter.post("/register", validation_1.validateUserSignUp, validation_1.userValidation, AuthController.register);
 authRouter.get('/verify', AuthController.verify);
 authRouter.get('/checkLogin', AuthController.checkLogin);
 authRouter.get("/login", AuthController.showFormLogin);

@@ -3,9 +3,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PageController = void 0;
+exports.PageController = exports.localStorage = void 0;
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const products_model_1 = __importDefault(require("../models/products.model"));
 const category_model_1 = __importDefault(require("../models/category.model"));
+const user_models_1 = __importDefault(require("../models/schemas/user.models"));
+const cart_models_1 = __importDefault(require("../models/schemas/cart.models"));
+const node_localstorage_1 = require("node-localstorage");
+exports.localStorage = new node_localstorage_1.LocalStorage('./scratch');
 class PageController {
     constructor() {
     }
@@ -44,7 +49,20 @@ class PageController {
     }
     ;
     shoppingCart(req, res, next) {
-        res.render('product/shopping-cart');
+        let user = exports.localStorage.getItem('token');
+        let newdata = JSON.parse(user);
+        jsonwebtoken_1.default.verify(newdata.token, process.env.SECRET_KEY, async (err, data) => {
+            let user = await user_models_1.default.findOne({ username: data.username });
+            let cartuser = await cart_models_1.default.findById({ _id: user.cart_id });
+            let html = [];
+            let listCart = cartuser.list;
+            for (let i = 0; i < listCart.length; i++) {
+                let product = await products_model_1.default.findById({ _id: listCart[i] });
+                html.push(product);
+            }
+            ;
+            res.render('product/shopping-cart', { Product: html });
+        });
     }
     ;
     checkOut(req, res, next) {

@@ -1,1 +1,1 @@
-export declare const checkLogin: (req: any, res: any, next: any) => void;
+export declare const checkLogin: (req: any, res: any, next: any) => any;
