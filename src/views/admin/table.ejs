@@ -265,8 +265,11 @@
           }).then((respone)=>{
             let data = respone.data
             let html = ''
-            console.log(data);
-              for (let i = 0; i < data.length; i++) {
+            
+            console.log(data.length);
+            if(data.length > 0){
+
+                for (let i = 0; i < data.length; i++) {
                    html+=`
                    <tr>
                    <td scope="col">${i+1}</td>
@@ -278,8 +281,12 @@
                    `
               }
               document.getElementById('a').innerHTML = html
-          })
-         
+             }
+             else{
+                let c = "<h2> Không có dữ nào nào !</h2>"
+                document.getElementById('a').innerHTML = c
+             }
+            })
     }
     </script>
 </body>
