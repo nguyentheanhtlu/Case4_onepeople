@@ -10,11 +10,15 @@ const product = new ProductController();
 
 
 adminRouter.get('/admin/list',(req, res,next) => {
-    admin.showAdminPage(req,res,next);
+    admin.showAdminPage(req,res,next).catch(err=>{
+        console.log(err.message)
+    });
 });
 adminRouter.post('/admin/list',(req, res,next) => {
     let keyword = req.body.keywords;
-    admin.find(req,res,keyword)
+    admin.find(req,res,keyword).catch(err=>{
+        console.log(err.message)
+    })
 });
 
 adminRouter.get('/admin/create/product', (req, res, next) => {
@@ -51,7 +55,6 @@ adminRouter.post('/admin/product/:id/update', (req, res, next)=>{
     product.edit(req,res,next).catch(err=>{
         console.log(err.message)
     })
-})
-
+});
 
 export  default adminRouter;

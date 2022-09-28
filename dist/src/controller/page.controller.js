@@ -26,9 +26,22 @@ class PageController {
     }
     ;
     async showShop(req, res, next) {
-        let product = await products_model_1.default.find();
-        console.log(product);
-        res.render('product/shop', { product: product });
+        let limit = 10;
+        let offset = 0;
+        let page = 1;
+        let query = req.query.page;
+        if (query) {
+            page = +query;
+            offset = (page - 1) * limit;
+        }
+        let product = await products_model_1.default.find().limit(limit).skip(offset);
+        let totalProduct = await products_model_1.default.countDocuments({});
+        let totalPage = Math.ceil(totalProduct / limit);
+        res.render('product/shop', {
+            product: product,
+            totalPage: totalPage,
+            currentPage: page
+        });
     }
     ;
     showMenShop(req, res, next) {

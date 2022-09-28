@@ -10,11 +10,15 @@ const product_controller_1 = require("../controller/product.controller");
 const admin = new admin_controller_1.AdminController();
 const product = new product_controller_1.ProductController();
 adminRouter.get('/admin/list', (req, res, next) => {
-    admin.showAdminPage(req, res, next);
+    admin.showAdminPage(req, res, next).catch(err => {
+        console.log(err.message);
+    });
 });
 adminRouter.post('/admin/list', (req, res, next) => {
     let keyword = req.body.keywords;
-    admin.find(req, res, keyword);
+    admin.find(req, res, keyword).catch(err => {
+        console.log(err.message);
+    });
 });
 adminRouter.get('/admin/create/product', (req, res, next) => {
     product.formCreateProduct(req, res, next).catch(err => {
