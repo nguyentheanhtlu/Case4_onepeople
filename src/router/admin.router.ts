@@ -16,6 +16,13 @@ adminRouter.post('/admin/list',(req, res,next) => {
     let keyword = req.body.keywords;
     admin.find(req,res,keyword)
 });
+adminRouter.get('/admin/user/update/:id',(req, res, next) => {
+    admin.showFormEditUser(req, res, next);
+})
+
+adminRouter.post('/admin/user/update/:id',(req, res, next) => {
+    admin.updateUser(req, res, next);
+})
 
 adminRouter.get('/admin/create/product', (req, res, next) => {
     product.formCreateProduct(req,res,next).catch(err=>{
