@@ -41,7 +41,9 @@ export class authController {
       );
       let dataCart = {
         emailCart: user.email,
+        totalMoney:'',
         list: [],
+        
       };
       await Cart.create(dataCart);
       let cart = await Cart.findOne({ emailCart: user.email });

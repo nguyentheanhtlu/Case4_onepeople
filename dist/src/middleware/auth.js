@@ -16,7 +16,6 @@ const authLogin = (req, res, next) => {
         }
         else {
             let newdata = JSON.parse(accessToken);
-            console.log(newdata);
             jsonwebtoken_1.default.verify(newdata.token, process.env.SECRET_KEY, (err, data) => {
                 if (newdata.role === "admin") {
                     if (err) {

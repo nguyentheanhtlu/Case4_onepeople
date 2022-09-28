@@ -1,7 +1,8 @@
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
-    emailCart:String,
+    emailCart: String,
+    totalMoney: String,
     list:[]
 });
 

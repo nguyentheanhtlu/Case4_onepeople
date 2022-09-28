@@ -13,7 +13,7 @@ export const authLogin = (req: any, res: Response, next: NextFunction) => {
             res.status(401).json({ message: "Access token is required1." });
         } else {
             let newdata = JSON.parse(accessToken);
-            console.log(newdata);
+            // console.log(newdata);
             jwt.verify(newdata.token, process.env.SECRET_KEY, (err, data) => {
                 if (newdata.role === "admin") {
                     if (err) {

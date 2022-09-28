@@ -30,7 +30,7 @@ export class PageController {
 
     async showShop(req: Request, res: Response, next: NextFunction){
         let product = await ProductModel.find();
-        console.log(product)
+        // console.log(product)
         res.render('product/shop', {product : product});
     };
 
@@ -68,14 +68,12 @@ export class PageController {
       
     };
 
-    checkOut(req: Request, res: Response, next: NextFunction){
-        res.render('product/check-out');
-    };
+   
 
     async showProductDetail(req: Request, res: Response, next: NextFunction){
         let categories = await Category.find();
         let product = await ProductModel.findById(req.params.id);
-        console.log(product)
+        // console.log(product)
         res.render('product/product-detail',{categories : categories , product : product})
     };
 }

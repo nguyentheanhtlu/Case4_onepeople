@@ -13,8 +13,8 @@ export class ProductController{
 
     async store(req: any, res: Response , next : NextFunction) {
         let files = req.files;
-        console.log(req.body);
-        console.log(files);
+        // console.log(req.body);
+        // console.log(files);
         if (files) {
             let product = req.body;
             // @ts-ignore

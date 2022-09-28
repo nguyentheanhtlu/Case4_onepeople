@@ -16,7 +16,6 @@ const authLoginUser = (req, res, next) => {
         }
         else {
             let newdata = JSON.parse(accessToken);
-            console.log(newdata);
             jsonwebtoken_1.default.verify(newdata.token, process.env.SECRET_KEY, (err, data) => {
                 if (err) {
                     res.status(200).json({ message: "Access token is required3." });

@@ -111,15 +111,25 @@
                     <td class="cart-title first-row">
                       <h5><%= item.name %></h5>
                     </td>
-                    <td  class="p-price first-row "><span id="price<%=index%>"><%= item.price %></span></td>
+                    <td class="p-price first-row">
+                      <span id="price<%=index%>"><%= item.price %></span>
+                    </td>
                     <td class="qua-col first-row">
-                      <div >
+                      <div>
                         <div>
-                          <input onchange="changeMoney()" id="num-product<%= index%>"  type="number" min="1" value="1" />
+                          <input
+                            onchange="changeMoney()"
+                            id="num-product<%= index%>"
+                            type="number"
+                            min="1"
+                            value="1"
+                          />
                         </div>
                       </div>
                     </td>
-                    <td  class="total-price first-row"><span id="pro-total-<%=index%>"><%= item.price %></span></td>
+                    <td class="total-price first-row">
+                      <span id="pro-total-<%=index%>"><%= item.price %></span>
+                    </td>
                     <td class="close-td first-row"><i class="ti-close"></i></td>
                   </tr>
                   <% })%>
@@ -147,9 +157,12 @@
               <div class="col-lg-4 offset-lg-4">
                 <div class="proceed-checkout">
                   <ul>
-                    <li class="subtotal">Total <h2>$<span id="total-money"></span></h2></li>
+                    <li class="subtotal">
+                      Total
+                      <h2>$<span id="total-money"></span></h2>
+                    </li>
                   </ul>
-                  <a href="/page/check-out" class="proceed-btn">Payment</a>
+                  <a onclick="payment()" class="proceed-btn">Payment</a>
                 </div>
               </div>
             </div>
@@ -209,35 +222,50 @@
     <script src="/product/js/owl.carousel.min.js"></script>
     <script src="/product/js/main.js"></script>
     <script>
-    let numberProduct = <%=Product.length%>
-    function changeMoney(){
-        let totalMoney = 0;
-        console.log(numberProduct);
-        for(let i=0; i<numberProduct; i++) {
-            let price = $(`#price${i}`).html();
-            let number = +$(`#num-product${i}`).val()
-            $(`#pro-total-${i}`).html(price * number)
-            totalMoney += price * number
-        }
-        $('#total-money').html(totalMoney);
-        $('#total_money').val(totalMoney);
-    }
-
-    $( document ).ready(function() {
-        let totalMoney = 0;
-        for(let i=0; i<numberProduct; i++) {
-            let price = $(`#price${i}`).html();
-            let number = +$(`#num-product${i}`).val()
-            $(`#pro-total-${i}`).html(price * number)
-            totalMoney += price * number
+      let numberProduct = <%=Product.length%>
+      function changeMoney(){
+          let totalMoney = 0;
+          for(let i=0; i<numberProduct; i++) {
+              let price = $(`#price${i}`).html();
+              let number = +$(`#num-product${i}`).val()
+              $(`#pro-total-${i}`).html(price * number)
+              totalMoney += price * number
+          }
+          $('#total-money').html(totalMoney);
+          $('#total_money').val(totalMoney);
+      }
+     
+      $( document ).ready(function() {
+          let totalMoney = 0;
+          for(let i=0; i<numberProduct; i++) {
+              let price = $(`#price${i}`).html();
+              let number = +$(`#num-product${i}`).val()
+              $(`#pro-total-${i}`).html(price * number)
+              totalMoney += price * number
+          }
+          $('#total-money').html(totalMoney);
+          $('#total_money').val(totalMoney);
          
-        }
-        $('#total-money').html(totalMoney);
-        $('#total_money').val(totalMoney);
-    })
-
-
-    
+        
+      })
+    function payment(){
+      let a = $('#total-money').html()
+         axios({
+              method: "post",
+              url: "http://localhost:3000/page/check-out",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              data: {
+                total: a
+              },
+            }).then((req)=>{
+            window.location.href = "http://localhost:3000/page/check-out"
+            })
+    }
+       
+       
+        
     </script>
   </body>
 </html>

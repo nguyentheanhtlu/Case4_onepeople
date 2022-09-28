@@ -32,7 +32,6 @@ class PageController {
     ;
     async showShop(req, res, next) {
         let product = await products_model_1.default.find();
-        console.log(product);
         res.render('product/shop', { product: product });
     }
     ;
@@ -65,14 +64,9 @@ class PageController {
         });
     }
     ;
-    checkOut(req, res, next) {
-        res.render('product/check-out');
-    }
-    ;
     async showProductDetail(req, res, next) {
         let categories = await category_model_1.default.find();
         let product = await products_model_1.default.findById(req.params.id);
-        console.log(product);
         res.render('product/product-detail', { categories: categories, product: product });
     }
     ;

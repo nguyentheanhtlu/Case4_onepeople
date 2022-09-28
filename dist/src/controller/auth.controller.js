@@ -62,6 +62,7 @@ class authController {
                 user.password = await bcrypt_1.default.hash(user.password, parseInt(process.env.BCRYPT_SALT_ROUND));
                 let dataCart = {
                     emailCart: user.email,
+                    totalMoney: '',
                     list: [],
                 };
                 await cart_models_1.default.create(dataCart);

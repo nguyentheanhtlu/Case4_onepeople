@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
 const userSchema = new mongoose_1.default.Schema({
     emailCart: String,
+    totalMoney: String,
     list: []
 });
 const Cart = mongoose_1.default.model("Carts", userSchema);
