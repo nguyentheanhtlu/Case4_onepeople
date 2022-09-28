@@ -26,13 +26,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.authController = void 0;
+exports.authController = exports.localStorage = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const user_models_1 = __importDefault(require("../models/schemas/user.models"));
 const mailer_1 = require("../utils/mailer");
 const dotenv = __importStar(require("dotenv"));
 dotenv.config();
+const node_localstorage_1 = require("node-localstorage");
+exports.localStorage = new node_localstorage_1.LocalStorage('./scratch');
 class authController {
     constructor() {
         this.showFormLogin = (req, res) => {
@@ -44,6 +46,7 @@ class authController {
         this.register = async (req, res) => {
             let user = req.body;
             let Email = user.email;
+            console.log(Email);
             let userByEmail = await user_models_1.default.findOne({ email: Email });
             let userByUsername = await user_models_1.default.findOne({ username: user.username });
             if (userByUsername) {
@@ -68,6 +71,7 @@ class authController {
                         console.log(err);
                     }
                     else {
+                        console.log(Email);
                         bcrypt_1.default
                             .hash(user.email, parseInt(process.env.BCRYPT_SALT_ROUND))
                             .then((hashedEmail) => {
@@ -101,12 +105,13 @@ class authController {
                     };
                     let secretKey = process.env.SECRET_KEY;
                     let token = await jsonwebtoken_1.default.sign(payload, secretKey, {
-                        expiresIn: 36000,
+                        expiresIn: 360000,
                     });
                     const response = {
                         token: token,
                         role: user.role,
                     };
+                    exports.localStorage.setItem('token', JSON.stringify(response));
                     return res.status(200).json(response);
                 }
             }

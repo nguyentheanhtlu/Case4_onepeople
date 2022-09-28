@@ -6,6 +6,8 @@ import auth from "../middleware/auth.middleware";
 import { senMail } from "../utils/mailer";
 import * as dotenv from "dotenv";
 dotenv.config();
+import { LocalStorage } from 'node-localstorage';
+export const localStorage = new LocalStorage('./scratch')
 
 export class authController {
   showFormLogin = (req: Request, res: Response) => {
@@ -19,6 +21,7 @@ export class authController {
   register = async (req: Request, res: Response) => {
     let user = req.body;
     let Email = user.email;
+    console.log(Email);
     let userByEmail = await User.findOne({ email: Email });
     let userByUsername = await User.findOne({ username: user.username });
     // console.log(userByEmail)
@@ -45,6 +48,7 @@ export class authController {
         if (err) {
           console.log(err);
         } else {
+          console.log(Email)
           bcrypt
             .hash(user.email, parseInt(process.env.BCRYPT_SALT_ROUND))
             .then((hashedEmail) => {
@@ -87,12 +91,14 @@ export class authController {
         };
         let secretKey = process.env.SECRET_KEY;
         let token = await jwt.sign(payload, secretKey, {
-          expiresIn: 36000,
+          expiresIn: 360000,
         });
         const response = {
             token: token,
             role: user.role,
         };
+        
+        localStorage.setItem('token', JSON.stringify(response));
         //   console.log(response);
         //   let a = req.headers['authorization']
         //   console.log(a);
