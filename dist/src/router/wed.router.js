@@ -100,6 +100,24 @@ wedRouter.post("/get-cart-items", (req, res, next) => {
         res.status(200).json(listCart.length);
     });
 });
+wedRouter.post("/get-name-user", (req, res, next) => {
+    let user = exports.localStorage.getItem("token");
+    let newdata = JSON.parse(user);
+    jsonwebtoken_1.default.verify(newdata.token, process.env.SECRET_KEY, async (err, data) => {
+        let user = await user_models_1.default.findOne({ username: data.username });
+        let html = user.email;
+        res.status(200).json(html);
+    });
+});
+wedRouter.post("/get-phone-user", (req, res, next) => {
+    let user = exports.localStorage.getItem("token");
+    let newdata = JSON.parse(user);
+    jsonwebtoken_1.default.verify(newdata.token, process.env.SECRET_KEY, async (err, data) => {
+        let user = await user_models_1.default.findOne({ username: data.username });
+        let html = user.phone;
+        res.status(200).json(html);
+    });
+});
 wedRouter.post("/product/cart", checkPermission_middleware_1.authLoginUser, (req, res, next) => {
     let idPr = req.body.idProduct;
     let user = exports.localStorage.getItem("token");

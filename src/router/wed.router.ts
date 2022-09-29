@@ -83,6 +83,8 @@ wedRouter.get("/page/shopping-cart", (req, res, next) => {
   page.shoppingCart(req, res, next);
 });
 
+
+
 wedRouter.get("/page/blog-detail", (req, res, next) => {
   page.showBlogDetail(req, res, next);
 });
@@ -129,6 +131,34 @@ wedRouter.post("/get-cart-items", (req, res, next) => {
     let cartuser = await Cart.findById({ _id: user.cart_id });
     let listCart = cartuser.list;
     res.status(200).json(listCart.length);
+  });
+});
+
+wedRouter.post("/get-name-user", (req, res, next) => {
+  let user = localStorage.getItem("token");
+  // console.log(user);
+  let newdata = JSON.parse(user);
+  // console.log(newdata);
+  jwt.verify(newdata.token, process.env.SECRET_KEY, async (err, data) => {
+    // console.log(data);
+    let user = await User.findOne({ username: data.username });
+    // console.log(user.email);
+    let html = user.email;
+    res.status(200).json(html);
+  });
+});
+
+wedRouter.post("/get-phone-user", (req, res, next) => {
+  let user = localStorage.getItem("token");
+  // console.log(user);
+  let newdata = JSON.parse(user);
+  // console.log(newdata);
+  jwt.verify(newdata.token, process.env.SECRET_KEY, async (err, data) => {
+    // console.log(data);
+    let user = await User.findOne({ username: data.username });
+    // console.log(user.phone);
+    let html = user.phone;
+    res.status(200).json(html);
   });
 });
 

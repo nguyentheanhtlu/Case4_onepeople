@@ -49,7 +49,6 @@ class authController {
         this.register = async (req, res) => {
             let user = req.body;
             let Email = user.email;
-            console.log(Email);
             let userByEmail = await user_models_1.default.findOne({ email: Email });
             let userByUsername = await user_models_1.default.findOne({ username: user.username });
             if (userByUsername) {
@@ -80,12 +79,11 @@ class authController {
                     phone: '',
                 };
                 let newUser = await user_models_1.default.create(data, (err, user) => {
-                    console.log(user);
                     if (err) {
                         console.log(err);
                     }
                     else {
-                        console.log(Email);
+                        console.log(user.email);
                         bcrypt_1.default
                             .hash(user.email, parseInt(process.env.BCRYPT_SALT_ROUND))
                             .then((hashedEmail) => {
