@@ -15,7 +15,15 @@ adminRouter.get('/admin/list', auth_1.authLogin, (req, res, next) => {
 });
 adminRouter.post('/admin/list', auth_1.authLogin, (req, res, next) => {
     let keyword = req.body.keywords;
-    admin.find(req, res, keyword);
+    admin.find(req, res, keyword).catch(err => {
+        console.log(err.message);
+    });
+});
+adminRouter.get('/admin/user/update/:id', (req, res, next) => {
+    admin.showFormEditUser(req, res, next);
+});
+adminRouter.post('/admin/user/update/:id', (req, res, next) => {
+    admin.updateUser(req, res, next);
 });
 adminRouter.get('/admin/create/product', auth_1.authLogin, (req, res, next) => {
     product.formCreateProduct(req, res, next).catch(err => {

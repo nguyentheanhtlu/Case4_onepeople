@@ -20,6 +20,16 @@ class AdminController {
         const data = await user_models_1.default.find({ username: { $regex: keywords, $options: "i" } });
         res.status(200).json(data);
     }
+    async showFormEditUser(req, res, next) {
+        let user = await user_models_1.default.findById({ _id: req.params.id });
+        res.render('admin/edit-user', { user: user });
+    }
+    async updateUser(req, res, next) {
+        let data = req.body;
+        let role = data.role;
+        await user_models_1.default.findOneAndUpdate({ _id: req.params.id }, { role: role });
+        res.redirect('/admin/list');
+    }
 }
 exports.AdminController = AdminController;
 //# sourceMappingURL=admin.controller.js.map

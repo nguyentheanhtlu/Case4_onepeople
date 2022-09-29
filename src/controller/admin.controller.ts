@@ -19,4 +19,16 @@ export class AdminController {
          res.status(200).json(data);
     }
 
+    async showFormEditUser(req: Request, res: Response, next: NextFunction) {
+        let user = await User.findById({_id: req.params.id})
+        res.render('admin/edit-user', {user: user});
+    }
+
+    async updateUser(req: Request,res : Response , next: NextFunction) {
+        let data = req.body;
+        let role = data.role
+        await User.findOneAndUpdate({_id:req.params.id},{role:role});
+        res.redirect('/admin/list')
+    }
+
 }
