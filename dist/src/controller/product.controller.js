@@ -13,8 +13,6 @@ class ProductController {
     }
     async store(req, res, next) {
         let files = req.files;
-        console.log(req.body);
-        console.log(files);
         if (files) {
             let product = req.body;
             if (files.image && product.name) {

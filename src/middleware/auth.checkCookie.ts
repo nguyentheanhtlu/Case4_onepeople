@@ -1,7 +1,8 @@
-export const checkLogin=(req: any, res: any, next: any) => {
+export const checkLogin = (req: any, res: any, next: any) => {
+    console.log(req.isAuthenticated());
     if (req.isAuthenticated()) {
         next();
     } else {
-        res.redirect('/auth/login');
+        return res.status(200).json({ messages: "chualogin" });
     }
 }

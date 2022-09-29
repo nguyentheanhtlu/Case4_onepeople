@@ -3,16 +3,16 @@ import {Request,Response,NextFunction} from "express";
 const adminRouter = express.Router();
 import multer from "multer";
 import {AdminController} from "../controller/admin.controller";
-import {ProductController} from "../controller/product.controller";
+import { ProductController } from "../controller/product.controller";
+import { authLogin } from "../middleware/auth";
 
 const admin = new AdminController();
 const product = new ProductController();
 
 
-adminRouter.get('/admin/list',(req, res,next) => {
-    admin.showAdminPage(req,res,next).catch(err=>{
-        console.log(err.message)
-    });
+adminRouter.get('/admin/list', authLogin,(req, res,next) => {
+    admin.showAdminPage(req,res,next);
+
 });
 adminRouter.post('/admin/list',(req, res,next) => {
     let keyword = req.body.keywords;

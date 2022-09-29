@@ -12,6 +12,9 @@ const userSchema = new mongoose_1.default.Schema({
     google_id: String,
     role: String,
     email_verify: String,
+    cart_id: String,
+    address: String,
+    phone: String,
 });
 const User = mongoose_1.default.model("Users", userSchema);
 exports.default = User;
