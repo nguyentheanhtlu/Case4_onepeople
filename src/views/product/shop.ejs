@@ -22,7 +22,93 @@
     <link rel="stylesheet" href="/product/css/jquery-ui.min.css" type="text/css">
     <link rel="stylesheet" href="/product/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="/product/css/style.css" type="text/css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
+
+<style>
+    .pagination-outer {
+        text-align: center;
+    }
+
+    .pagination {
+        font-family: 'Poppins', sans-serif;
+        display: inline-flex;
+        position: relative;
+    }
+
+    .pagination li a.page-link {
+        color: #fff;
+        background: #eee;
+        font-size: 22px;
+        font-weight: 500;
+        line-height: 40px;
+        height: 40px;
+        width: 40px;
+        padding: 0;
+        margin: 0 5px;
+        border: none;
+        border-radius: 50%;
+        position: relative;
+        z-index: 1;
+        transition: all 0.3s ease 0s;
+    }
+
+    .pagination li a.page-link:hover,
+    .pagination li a.page-link:focus,
+    .pagination li.active a.page-link:hover,
+    .pagination li.active a.page-link {
+        color: #fff;
+        background: rgba(188, 37, 105, 0.5);
+        line-height: 25px;
+    }
+
+    .pagination li a.page-link:before,
+    .pagination li a.page-link:after {
+        content: '';
+        background-color: rgba(188, 37, 105, 0.5);
+        height: 100%;
+        width: 100%;
+        border-radius: 50%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: -1;
+        transition: all 0.3s ease 0s;
+    }
+
+    .pagination li a.page-link:after {
+        background-color: #bc2569;
+    }
+
+    .pagination li a.page-link:hover:before,
+    .pagination li a.page-link:focus:before,
+    .pagination li.active a.page-link:hover:before,
+    .pagination li.active a.page-link:before {
+        top: -4px;
+    }
+
+    .pagination li a.page-link:hover:after,
+    .pagination li a.page-link:focus:after,
+    .pagination li.active a.page-link:hover:after,
+    .pagination li.active a.page-link:after {
+        top: -8px;
+    }
+
+    @media only screen and (max-width: 480px) {
+        .pagination {
+            font-size: 0;
+            display: inline-block;
+        }
+
+        .pagination li {
+            display: inline-block;
+            vertical-align: top;
+            margin: 10px 0;
+        }
+    }
+</style>
 
 <body>
 <!-- Page Preloder -->
@@ -31,7 +117,185 @@
 </div>
 
 <!-- Header Section Begin -->
-<%- include('./header/header') %>
+<header class="header-section">
+    <div class="header-top">
+        <div class="container">
+            <div class="ht-left">
+                <div class="mail-service">
+                    <i class="fa fa-envelope"></i>
+                    hello.colorlib@gmail.com
+                </div>
+                <div class="phone-service">
+                    <i class="fa fa-phone"></i>
+                    +65 11.188.888
+                </div>
+            </div>
+            <div class="ht-right">
+                <a href="/auth/login" class="login-panel"
+                ><i class="fa fa-user"></i>Login</a
+                >
+                <div class="lan-selector">
+                    <select
+                            class="language_drop"
+                            name="countries"
+                            id="countries"
+                            style="width: 300px"
+                    >
+                        <option
+                                value="yt"
+                                data-image="/product/img/flag-1.jpg"
+                                data-imagecss="flag yt"
+                                data-title="English"
+                        >
+                            English
+                        </option>
+                        <option
+                                value="yu"
+                                data-image="/productimg/flag-2.jpg"
+                                data-imagecss="flag yu"
+                                data-title="Bangladesh"
+                        >
+                            German
+                        </option>
+                    </select>
+                </div>
+                <div class="top-social">
+                    <a href="#"><i class="ti-facebook"></i></a>
+                    <a href="#"><i class="ti-twitter-alt"></i></a>
+                    <a href="#"><i class="ti-linkedin"></i></a>
+                    <a href="#"><i class="ti-pinterest"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="inner-header">
+            <div class="row">
+                <div class="col-lg-2 col-md-2">
+                    <div class="logo">
+                        <a href="/">
+                            <img src="/product/img/logo.png" alt="" />
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-7 col-md-7">
+                    <div class="advanced-search">
+                        <button type="button" class="category-btn">All Categories</button>
+                        <a class="input-group">
+                            <input onkeypress="searchKeyword()" id="keyword" type="text" name="keyword" placeholder="What do you need?" />
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-3 text-right col-md-3">
+                    <ul class="nav-right">
+                        <li class="heart-icon">
+                            <a href="#">
+                                <i class="icon_heart_alt"></i>
+                                <span>1</span>
+                            </a>
+                        </li>
+                        <li class="cart-icon">
+                            <a href="/page/shopping-cart">
+                                <i class="icon_bag_alt"></i>
+                                <span>3</span>
+                            </a>
+                            <div class="cart-hover">
+                                <div class="select-items">
+                                    <table>
+                                        <tbody>
+                                        <tr>
+                                            <td class="si-pic">
+                                                <img src="/product/img/select-product-1.jpg" alt="" />
+                                            </td>
+                                            <td class="si-text">
+                                                <div class="product-selected">
+                                                    <p>$60.00 x 1</p>
+                                                    <h6>Kabino Bedside Table</h6>
+                                                </div>
+                                            </td>
+                                            <td class="si-close">
+                                                <i class="ti-close"></i>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="si-pic">
+                                                <img src="/product/img/select-product-2.jpg" alt="" />
+                                            </td>
+                                            <td class="si-text">
+                                                <div class="product-selected">
+                                                    <p>$60.00 x 1</p>
+                                                    <h6>Kabino Bedside Table</h6>
+                                                </div>
+                                            </td>
+                                            <td class="si-close">
+                                                <i class="ti-close"></i>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="select-total">
+                                    <span>total:</span>
+                                    <h5>$120.00</h5>
+                                </div>
+                                <div class="select-button">
+                                    <a href="#" class="primary-btn view-card">VIEW CARD</a>
+                                    <a href="#" class="primary-btn checkout-btn">CHECK OUT</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="cart-price">$150.00</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="nav-item">
+        <div class="container">
+            <div class="nav-depart">
+                <div class="depart-btn">
+                    <i class="ti-menu"></i>
+                    <span>All departments</span>
+                    <ul class="depart-hover">
+                        <li class="active"><a href="/shop/women">Women’s Clothing</a></li>
+                        <li><a href="/shop/men">Men’s Clothing</a></li>
+                        <li><a href="/shop/kids">Kid's Clothing</a></li>
+                        <li><a href="/admin/list">Head to Admin page</a></li>
+                    </ul>
+                </div>
+            </div>
+            <nav class="nav-menu mobile-menu">
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/shop">Shop</a></li>
+                    <li>
+                        <a href="#">Collection</a>
+                        <ul class="dropdown">
+                            <li><a href="/shop/men">Men's</a></li>
+                            <li><a href="/shop/women">Women's</a></li>
+                            <li><a href="/shop/kids">Kid's</a></li>
+                        </ul>
+                    </li>
+                    <li class=""><a href="/blog">Blog</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                    <li>
+                        <a href="#">Pages</a>
+                        <ul class="dropdown">
+                            <li><a href="/page/blog-detail">Blog Details</a></li>
+                            <li><a href="/page/shopping-cart">Shopping Cart</a></li>
+                            <li><a href="/page/check-out">Checkout</a></li>
+                            <li><a href="/page/faq">Faq</a></li>
+                            <li><a href="/auth/register">Register</a></li>
+                            <li><a href="/auth/login">Login</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+            <div id="mobile-menu-wrap"></div>
+        </div>
+    </div>
+</header>
+
 <!-- Header End -->
 
 <!-- Breadcrumb Section Begin -->
@@ -195,42 +459,61 @@
                     </div>
                 </div>
                 <div class="product-list">
-                    <div class="row">
-                        <% product.forEach((item,index)=>{ %>
+                    <div class="row" id="searchProduct">
+                        <% product.forEach((item, index)=>{ %>
                         <div class="col-lg-4 col-sm-6">
-                                <div class="product-item">
-                                    <div class="pi-pic">
-                                        <img src="/<%=item.image%>" alt="">
-                                        <div class="sale pp-sale">Sale</div>
-                                        <div class="icon">
-                                            <i class="icon_heart_alt"></i>
-                                        </div>
-                                        <ul>
-                                            <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
-                                            <li class="quick-view"><a href="/product/<%=item._id%>/product-detail">+ Quick View</a></li>
-                                            <li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
-                                        </ul>
+                            <div class="product-item">
+                                <div class="pi-pic">
+                                    <img style="width: 300px; height: 300px" src="/<%= item.image %>" alt="">
+                                    <div class="sale pp-sale">Sale</div>
+                                    <div class="icon">
+                                        <i class="icon_heart_alt"></i>
                                     </div>
-                                    <div class="pi-text">
-                                        <div class="category-name">Towel</div>
-                                        <a href="/product/<%=item._id%>/product-detail">
-                                            <h5><%= item.name %></h5>
-                                        </a>
-                                        <div class="product-price">
-                                            <%= item.price %>$
-                                        </div>
+                                    <ul>
+                                        <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
+                                        <li class="quick-view"><a href="/product/<%= item._id %>/product-detail">+ Quick
+                                                View</a></li>
+                                        <li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
+                                    </ul>
+                                </div>
+                                <div class="pi-text">
+                                    <div class="category-name"></div>
+                                    <a href="/product/<%= item._id %>/product-detail">
+                                        <h5><%= item.name %></h5>
+                                    </a>
+                                    <div class="product-price">
+                                        <%= item.price %>$
                                     </div>
                                 </div>
+                            </div>
                         </div>
-                        <%})%>
+                        <% }) %>
                     </div>
                 </div>
-<!--                <div class="loading-more">-->
-<!--                    <i class="icon_loading"></i>-->
-<!--                    <a href="#">-->
-<!--                        Loading More-->
-<!--                    </a>-->
-<!--                </div>-->
+
+                <div class="demo">
+                    <nav class="pagination-outer" aria-label="Page navigation">
+                        <ul class="pagination">
+                            <% if(currentPage > 1){ %>
+                                <li class="page-item">
+                                    <a href="/shop?page=<%= currentPage - 1 %>" class="page-link" aria-label="Previous">
+                                        <span aria-hidden="true">«</span>
+                                    </a>
+                                </li>
+                            <% } %>
+                            <% for(let page = 1; page <= totalPage; page++) { %>
+                                <li class="page-item"><a class="page-link" href="/shop?page=<%= page %>"><%= page %></a>
+                            <% } %>
+                            <% if(currentPage < totalPage){ %>
+                                <li class="page-item">
+                                    <a href="/shop?page=<%= currentPage + 1 %>" class="page-link" aria-label="Next">
+                                        <span aria-hidden="true">»</span>
+                                    </a>
+                                </li>
+                            <% } %>
+                        </ul>
+                    </nav>
+                </div>
             </div>
         </div>
     </div>
@@ -272,7 +555,7 @@
 <!-- Partner Logo Section End -->
 
 <!-- Footer Section Begin -->
-<%- include('./footer/footer')%>
+<%- include('./footer/footer') %>
 <!-- Footer Section End -->
 
 <!-- Js Plugins -->
@@ -286,6 +569,63 @@
 <script src="/product/js/jquery.slicknav.js"></script>
 <script src="/product/js/owl.carousel.min.js"></script>
 <script src="/product/js/main.js"></script>
+<script>
+
+    function searchKeyword(){
+        let keyword = document.getElementById('keyword').value;
+
+        axios({
+            method: "post",
+            url: "http://localhost:3000/shop/search",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            data: {
+                keyword : keyword
+            },
+        }).then((data)=>{
+            let html = ''
+            if(data.data.length > 0){
+                for(let i =0 ;i<data.data.length; i++){
+                    html += `
+                   <div class="col-lg-4 col-sm-6">
+                            <div class="product-item">
+                                <div class="pi-pic">
+                                    <img style="width: 300px; height: 300px" src="/${data.data[i].image}" alt="">
+                                    <div class="sale pp-sale">Sale</div>
+                                    <div class="icon">
+                                        <i class="icon_heart_alt"></i>
+                                    </div>
+                                    <ul>
+                                        <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
+                                        <li class="quick-view"><a href="/product/${data.data[i]._id}/product-detail">+ Quick
+                                                View</a></li>
+                                        <li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
+                                    </ul>
+                                </div>
+                                <div class="pi-text">
+                                    <div class="category-name"></div>
+                                    <a href="/product/${data.data[i]._id}/product-detail">
+                                        <h5>${data.data[i].name}</h5>
+                                    </a>
+                                    <div class="product-price">
+                                        ${data.data[i].price}$
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                `
+                }
+                document.getElementById('searchProduct').innerHTML = html
+            }else {
+                let c = "<h2> Không có dữ nào nào !</h2>"
+                document.getElementById('searchProduct').innerHTML = c
+            }
+
+        })
+    }
+
+</script>
 </body>
 
 </html>

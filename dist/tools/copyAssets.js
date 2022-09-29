@@ -25,4 +25,5 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const shell = __importStar(require("shelljs"));
 shell.cp("-R", "src/views", "dist/");
+shell.cp("-R", "src/public", "dist/");
 //# sourceMappingURL=copyAssets.js.map

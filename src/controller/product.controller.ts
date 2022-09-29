@@ -13,8 +13,6 @@ export class ProductController{
 
     async store(req: any, res: Response , next : NextFunction) {
         let files = req.files;
-        console.log(req.body);
-        console.log(files);
         if (files) {
             let product = req.body;
             // @ts-ignore
@@ -48,7 +46,7 @@ export class ProductController{
 
     async editProduct(req: Request, res: Response, next: NextFunction){
         let categories = await Category.find();
-        let product = await ProductModel.findById({_id : req.params.id});
+        let product = await ProductModel.findById({_id : req.params.id}).populate('category');
         res.render('admin/edit-product',{categories : categories , product : product})
     }
 
@@ -66,4 +64,29 @@ export class ProductController{
         res.redirect('/admin/list/product')
     };
 
+    async searchProduct(req: Request, res: Response, next: NextFunction){
+        console.log(1)
+        let keyword = req.query.keyword;
+        console.log(keyword)
+        let limit = 9;
+        let offset = 0;
+        let page = 1;
+        let query = req.query.page;
+        if(query){
+            page = +query;
+            offset = (page - 1)*limit;
+        }
+        let category = await Category.find({$or: [{name: {$regex: `${keyword}`, $options: 'i'}}]});
+        let product = await ProductModel.find({
+                $or : [{name: { $regex : `${keyword}`,$options : 'i',$not : /^admin.*/}}]
+            }).populate('category').limit(limit).skip(offset);
+        let totalProduct = await ProductModel.countDocuments({});
+        let totalPage = Math.ceil(totalProduct/limit);
+        res.render('product/shopNoProduct', {
+            product : product,
+            totalPage : totalPage,
+            currentPage : page,
+            category : category
+        });
+    }
 }

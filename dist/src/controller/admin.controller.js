@@ -12,14 +12,11 @@ class AdminController {
         let data = req.sessionStore;
         console.log(data);
         let user = await user_models_1.default.find();
-        console.log(user);
         res.render('admin/table', { User: user });
     }
     async find(req, res, keyword) {
-        console.log(keyword);
         let keywords = String(keyword);
         const data = await user_models_1.default.find({ username: { $regex: keywords, $options: "i" } });
-        console.log(data);
         res.status(200).json(data);
     }
     async showFormEditUser(req, res, next) {

@@ -26,16 +26,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.authController = void 0;
+exports.authController = exports.localStorage = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const user_models_1 = __importDefault(require("../models/schemas/user.models"));
+const cart_models_1 = __importDefault(require("../models/schemas/cart.models"));
+const express_session_1 = __importDefault(require("express-session"));
 const mailer_1 = require("../utils/mailer");
 const dotenv = __importStar(require("dotenv"));
 dotenv.config();
+const node_localstorage_1 = require("node-localstorage");
+exports.localStorage = new node_localstorage_1.LocalStorage("./scratch");
 class authController {
     constructor() {
         this.showFormLogin = (req, res) => {
+            exports.localStorage.removeItem("token");
             res.render("product/login/login");
         };
         this.showFormRegister = (req, res) => {
@@ -44,6 +49,7 @@ class authController {
         this.register = async (req, res) => {
             let user = req.body;
             let Email = user.email;
+            console.log(Email);
             let userByEmail = await user_models_1.default.findOne({ email: Email });
             let userByUsername = await user_models_1.default.findOne({ username: user.username });
             if (userByUsername) {
@@ -54,6 +60,13 @@ class authController {
             }
             else {
                 user.password = await bcrypt_1.default.hash(user.password, parseInt(process.env.BCRYPT_SALT_ROUND));
+                let dataCart = {
+                    emailCart: user.email,
+                    totalMoney: '',
+                    list: [],
+                };
+                await cart_models_1.default.create(dataCart);
+                let cart = await cart_models_1.default.findOne({ emailCart: user.email });
                 let data = {
                     username: user.username,
                     email: user.email,
@@ -61,6 +74,10 @@ class authController {
                     facebook_id: "",
                     google_id: "",
                     role: "user",
+                    email_verify: '',
+                    cart_id: cart._id,
+                    address: '',
+                    phone: '',
                 };
                 let newUser = await user_models_1.default.create(data, (err, user) => {
                     console.log(user);
@@ -68,6 +85,7 @@ class authController {
                         console.log(err);
                     }
                     else {
+                        console.log(Email);
                         bcrypt_1.default
                             .hash(user.email, parseInt(process.env.BCRYPT_SALT_ROUND))
                             .then((hashedEmail) => {
@@ -99,6 +117,12 @@ class authController {
                         password: user.password,
                         role: user.role,
                     };
+                    (0, express_session_1.default)({
+                        secret: "SECRET",
+                        resave: false,
+                        saveUninitialized: true,
+                        cookie: { maxAge: 60 * 60 * 1000 },
+                    });
                     let secretKey = process.env.SECRET_KEY;
                     let token = await jsonwebtoken_1.default.sign(payload, secretKey, {
                         expiresIn: 36000,
@@ -107,6 +131,7 @@ class authController {
                         token: token,
                         role: user.role,
                     };
+                    exports.localStorage.setItem("token", JSON.stringify(response));
                     return res.status(200).json(response);
                 }
             }

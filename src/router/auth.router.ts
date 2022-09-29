@@ -22,7 +22,7 @@ const upload = multer();
 authRouter.get("/register", AuthController.showFormRegister);
 
 // @ts-ignore
-authRouter.post("/register", upload.none(), validateUserSignUp, userValidation, AuthController.register);
+authRouter.post("/register", validateUserSignUp, userValidation, AuthController.register);
 
 authRouter.get('/verify',AuthController.verify)
 authRouter.get('/checkLogin',AuthController.checkLogin)

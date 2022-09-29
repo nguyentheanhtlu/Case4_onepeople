@@ -6,4 +6,5 @@ export declare class ProductController {
     deleteProduct(req: Request, res: Response, next: NextFunction): Promise<void>;
     editProduct(req: Request, res: Response, next: NextFunction): Promise<void>;
     edit(req: Request, res: Response, next: NextFunction): Promise<void>;
+    searchProduct(req: Request, res: Response, next: NextFunction): Promise<void>;
 }
