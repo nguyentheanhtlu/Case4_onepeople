@@ -24,6 +24,89 @@
     <link rel="stylesheet" href="/product/css/style.css" type="text/css">
 </head>
 
+<style>
+    .pagination-outer {
+        text-align: center;
+    }
+
+    .pagination {
+        font-family: 'Poppins', sans-serif;
+        display: inline-flex;
+        position: relative;
+    }
+
+    .pagination li a.page-link {
+        color: #fff;
+        background: #eee;
+        font-size: 22px;
+        font-weight: 500;
+        line-height: 40px;
+        height: 40px;
+        width: 40px;
+        padding: 0;
+        margin: 0 5px;
+        border: none;
+        border-radius: 50%;
+        position: relative;
+        z-index: 1;
+        transition: all 0.3s ease 0s;
+    }
+
+    .pagination li a.page-link:hover,
+    .pagination li a.page-link:focus,
+    .pagination li.active a.page-link:hover,
+    .pagination li.active a.page-link {
+        color: #fff;
+        background: rgba(188, 37, 105, 0.5);
+        line-height: 25px;
+    }
+
+    .pagination li a.page-link:before,
+    .pagination li a.page-link:after {
+        content: '';
+        background-color: rgba(188, 37, 105, 0.5);
+        height: 100%;
+        width: 100%;
+        border-radius: 50%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: -1;
+        transition: all 0.3s ease 0s;
+    }
+
+    .pagination li a.page-link:after {
+        background-color: #bc2569;
+    }
+
+    .pagination li a.page-link:hover:before,
+    .pagination li a.page-link:focus:before,
+    .pagination li.active a.page-link:hover:before,
+    .pagination li.active a.page-link:before {
+        top: -4px;
+    }
+
+    .pagination li a.page-link:hover:after,
+    .pagination li a.page-link:focus:after,
+    .pagination li.active a.page-link:hover:after,
+    .pagination li.active a.page-link:after {
+        top: -8px;
+    }
+
+    @media only screen and (max-width: 480px) {
+        .pagination {
+            font-size: 0;
+            display: inline-block;
+        }
+
+        .pagination li {
+            display: inline-block;
+            vertical-align: top;
+            margin: 10px 0;
+        }
+    }
+</style>
+
 <body>
 <!-- Page Preloder -->
 <div id="preloder">
@@ -196,53 +279,72 @@
                 </div>
                 <div class="product-list">
                     <div class="row">
-                        <% product.forEach((item,index)=>{ %>
+                        <% product.forEach((item, index)=>{ %>
                         <div class="col-lg-4 col-sm-6">
-                                <div class="product-item">
-                                    <div class="pi-pic">
-                                        <img src="/<%=item.image%>" alt="">
-                                        <div class="sale pp-sale">Sale</div>
-                                        <div class="icon">
-                                            <i class="icon_heart_alt"></i>
-                                        </div>
-                                        <ul>
-                                            <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
-                                            <li class="quick-view"><a href="/product/<%=item._id%>/product-detail">+ Quick View</a></li>
-                                            <li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
-                                        </ul>
+                            <div class="product-item">
+                                <div class="pi-pic">
+                                    <img src="/<%= item.image %>" alt="">
+                                    <div class="sale pp-sale">Sale</div>
+                                    <div class="icon">
+                                        <i class="icon_heart_alt"></i>
                                     </div>
-                                    <div class="pi-text">
-                                        <div class="category-name">Towel</div>
-                                        <a href="/product/<%=item._id%>/product-detail">
-                                            <h5><%= item.name %></h5>
-                                        </a>
-                                        <div class="product-price">
-                                            <%= item.price %>$
-                                        </div>
+                                    <ul>
+                                        <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
+                                        <li class="quick-view"><a href="/product/<%= item._id %>/product-detail">+ Quick
+                                                View</a></li>
+                                        <li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
+                                    </ul>
+                                </div>
+                                <div class="pi-text">
+                                    <div class="category-name">Towel</div>
+                                    <a href="/product/<%= item._id %>/product-detail">
+                                        <h5><%= item.name %></h5>
+                                    </a>
+                                    <div class="product-price">
+                                        <%= item.price %>$
                                     </div>
                                 </div>
+                            </div>
                         </div>
-                        <%})%>
-
-                    </div>
-                    <div>
-                        <%if(currentPage > 1){%>
-                            <a href="/shop?page=<%= currentPage -1%>"> Perious page </a>
-                        <%}%>
-                        <% for(let page = 1; page <= totalPage; page++) {%>
-                            <a href="/shop?page=<%= page %>"><%= page %></a>
-                        <%}%>
-                        <%if(currentPage < totalPage){%>
-                            <a href="/shop?page=<%= currentPage + 1%>"> Next page </a>
-                        <%}%>
+                        <% }) %>
                     </div>
                 </div>
-<!--                <div class="loading-more">-->
-<!--                    <i class="icon_loading"></i>-->
-<!--                    <a href="#">-->
-<!--                        Loading More-->
-<!--                    </a>-->
-<!--                </div>-->
+                <!--                <div class="row">-->
+                <!--                    <div class="col-md-8 offset-md-2">-->
+                <!--                        <% if(currentPage > 1){ %>-->
+                <!--                            <a href="/shop?page=<%= currentPage - 1 %>"> Perious </a>-->
+                <!--                        <% } %>-->
+                <!--                        <% for(let page = 1; page <= totalPage; page++) { %>-->
+                <!--                            <a href="/shop?page=<%= page %>"><%= page %></a>-->
+                <!--                        <% } %>-->
+                <!--                        <% if(currentPage < totalPage){ %>-->
+                <!--                            <a href="/shop?page=<%= currentPage + 1 %>"> Next </a>-->
+                <!--                        <% } %>-->
+                <!--                    </div>-->
+                <!--                </div>-->
+                <div class="demo">
+                    <nav class="pagination-outer" aria-label="Page navigation">
+                        <ul class="pagination">
+                            <% if(currentPage > 1){ %>
+                                <li class="page-item">
+                                    <a href="/shop?page=<%= currentPage - 1 %>" class="page-link" aria-label="Previous">
+                                        <span aria-hidden="true">«</span>
+                                    </a>
+                                </li>
+                            <% } %>
+                            <% for(let page = 1; page <= totalPage; page++) { %>
+                                <li class="page-item"><a class="page-link" href="/shop?page=<%= page %>"><%= page %></a>
+                            <% } %>
+                            <% if(currentPage < totalPage){ %>
+                                <li class="page-item">
+                                    <a href="/shop?page=<%= currentPage + 1 %>" class="page-link" aria-label="Next">
+                                        <span aria-hidden="true">»</span>
+                                    </a>
+                                </li>
+                            <% } %>
+                        </ul>
+                    </nav>
+                </div>
             </div>
         </div>
     </div>
@@ -284,7 +386,7 @@
 <!-- Partner Logo Section End -->
 
 <!-- Footer Section Begin -->
-<%- include('./footer/footer')%>
+<%- include('./footer/footer') %>
 <!-- Footer Section End -->
 
 <!-- Js Plugins -->

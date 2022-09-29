@@ -113,7 +113,7 @@
                   <label for="email">Email address *</label>
                   <input
                     onchange="clickEmail()"
-                    type="text"
+                    type="email"
                     id="email"
                     name="email"
                     value=""
@@ -245,6 +245,7 @@
           event.preventDefault();
           let username = document.getElementById("username").value;
           let email = document.getElementById("email").value;
+          console.log(email)
           let password = document.getElementById("password").value;
           let confirmpassword =
             document.getElementById("confirmpassword").value;

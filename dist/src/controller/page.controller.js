@@ -46,6 +46,7 @@ class PageController {
             product: product,
             totalPage: totalPage,
             currentPage: page
+        });
     }
     ;
     showMenShop(req, res, next) {

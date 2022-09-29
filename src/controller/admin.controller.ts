@@ -2,10 +2,8 @@ import {Request,Response,NextFunction} from "express";
 import User from "../models/schemas/user.models";
 
 export class AdminController {
-
     constructor() {
     }
-
     async showAdminPage(req: Request, res: Response, next: NextFunction) {
         let data = req.sessionStore
         console.log(data);
