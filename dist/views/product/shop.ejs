@@ -217,12 +217,24 @@
                                             <h5><%= item.name %></h5>
                                         </a>
                                         <div class="product-price">
-                                            <%= item.price %>
+                                            <%= item.price %>$
                                         </div>
                                     </div>
                                 </div>
                         </div>
                         <%})%>
+
+                    </div>
+                    <div>
+                        <%if(currentPage > 1){%>
+                            <a href="/shop?page=<%= currentPage -1%>"> Perious page </a>
+                        <%}%>
+                        <% for(let page = 1; page <= totalPage; page++) {%>
+                            <a href="/shop?page=<%= page %>"><%= page %></a>
+                        <%}%>
+                        <%if(currentPage < totalPage){%>
+                            <a href="/shop?page=<%= currentPage + 1%>"> Next page </a>
+                        <%}%>
                     </div>
                 </div>
 <!--                <div class="loading-more">-->

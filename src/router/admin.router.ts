@@ -12,11 +12,21 @@ const product = new ProductController();
 
 adminRouter.get('/admin/list', authLogin,(req, res,next) => {
     admin.showAdminPage(req,res,next);
+
 });
 adminRouter.post('/admin/list',(req, res,next) => {
     let keyword = req.body.keywords;
-    admin.find(req,res,keyword)
+    admin.find(req,res,keyword).catch(err=>{
+        console.log(err.message)
+    })
 });
+adminRouter.get('/admin/user/update/:id',(req, res, next) => {
+    admin.showFormEditUser(req, res, next);
+})
+
+adminRouter.post('/admin/user/update/:id',(req, res, next) => {
+    admin.updateUser(req, res, next);
+})
 
 adminRouter.get('/admin/create/product', (req, res, next) => {
     product.formCreateProduct(req,res,next).catch(err=>{
@@ -52,7 +62,6 @@ adminRouter.post('/admin/product/:id/update', (req, res, next)=>{
     product.edit(req,res,next).catch(err=>{
         console.log(err.message)
     })
-})
-
+});
 
 export  default adminRouter;

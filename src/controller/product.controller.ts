@@ -37,6 +37,7 @@ export class ProductController{
     async productList(req: Request, res: Response, next: NextFunction) {
         let categories = await Category.find();
         let product = await ProductModel.find().populate('category');
+        console.log(product)
         res.render('admin/product-list',{categories : categories, product : product});
     };
 

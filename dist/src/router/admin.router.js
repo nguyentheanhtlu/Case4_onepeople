@@ -10,12 +10,22 @@ const product_controller_1 = require("../controller/product.controller");
 const auth_1 = require("../middleware/auth");
 const admin = new admin_controller_1.AdminController();
 const product = new product_controller_1.ProductController();
+
 adminRouter.get('/admin/list', auth_1.authLogin, (req, res, next) => {
     admin.showAdminPage(req, res, next);
+
 });
 adminRouter.post('/admin/list', (req, res, next) => {
     let keyword = req.body.keywords;
-    admin.find(req, res, keyword);
+    admin.find(req, res, keyword).catch(err => {
+        console.log(err.message);
+    });
+});
+adminRouter.get('/admin/user/update/:id', (req, res, next) => {
+    admin.showFormEditUser(req, res, next);
+});
+adminRouter.post('/admin/user/update/:id', (req, res, next) => {
+    admin.updateUser(req, res, next);
 });
 adminRouter.get('/admin/create/product', (req, res, next) => {
     product.formCreateProduct(req, res, next).catch(err => {
