@@ -2,10 +2,12 @@ import jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from "express";
 import ProductModel from "../models/products.model";
 import Category from "../models/category.model";
+
 import User from '../models/schemas/user.models';
 import Cart from '../models/schemas/cart.models';
 import { LocalStorage } from 'node-localstorage';
 export const localStorage = new LocalStorage('./scratch');
+
 
 
 export class PageController {
@@ -29,10 +31,9 @@ export class PageController {
     };
 
     async showShop(req: Request, res: Response, next: NextFunction){
-
-        let limit = 10;
+        let limit = 9;
         let offset = 0;
-        let page = 1
+        let page = 1;
         let query = req.query.page;
         if(query){
             page = +query;
@@ -88,7 +89,12 @@ export class PageController {
     async showProductDetail(req: Request, res: Response, next: NextFunction){
         let categories = await Category.find();
         let product = await ProductModel.findById(req.params.id);
-        // console.log(product)
         res.render('product/product-detail',{categories : categories , product : product})
     };
+
+    async find(req,res,keyword){
+        let keywords = String(keyword)
+        const data = await ProductModel.find({ name: { $regex: keywords, $options: "i" } });
+        res.status(200).json(data);
+    }
 }

@@ -13,4 +13,5 @@ export declare class PageController {
     showKidsShop(req: Request, res: Response, next: NextFunction): void;
     shoppingCart(req: Request, res: Response, next: NextFunction): void;
     showProductDetail(req: Request, res: Response, next: NextFunction): Promise<void>;
+    find(req: any, res: any, keyword: any): Promise<void>;
 }

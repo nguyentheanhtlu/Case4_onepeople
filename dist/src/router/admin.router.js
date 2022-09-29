@@ -19,11 +19,13 @@ adminRouter.post('/admin/list', auth_1.authLogin, (req, res, next) => {
         console.log(err.message);
     });
 });
+
 adminRouter.get('/admin/user/update/:id', auth_1.authLogin, (req, res, next) => {
     admin.showFormEditUser(req, res, next);
 });
 adminRouter.post('/admin/user/update/:id', auth_1.authLogin, (req, res, next) => {
     admin.updateUser(req, res, next);
+
 });
 adminRouter.get('/admin/create/product', auth_1.authLogin, (req, res, next) => {
     product.formCreateProduct(req, res, next).catch(err => {

@@ -21,12 +21,14 @@ adminRouter.post('/admin/list',authLogin,(req, res,next) => {
         console.log(err.message)
     })
 });
+
 adminRouter.get('/admin/user/update/:id',authLogin,(req, res, next) => {
     admin.showFormEditUser(req, res, next);
 })
 
 adminRouter.post('/admin/user/update/:id',authLogin,(req, res, next) => {
     admin.updateUser(req, res, next);
+
 })
 
 adminRouter.get('/admin/create/product',authLogin, (req, res, next) => {
@@ -64,5 +66,7 @@ adminRouter.post('/admin/product/:id/update',authLogin, (req, res, next)=>{
         console.log(err.message)
     })
 });
+
+
 
 export  default adminRouter;

@@ -92,6 +92,13 @@ wedRouter.get("/shop", (req, res, next) => {
   });
 });
 
+wedRouter.post('/shop/search',async (req,res,next)=>{
+  let keyword = req.body.keyword;
+  page.find(req,res,keyword).catch(err=>{
+    console.log(err.message)
+  })
+})
+
 wedRouter.get("/shop/men", (req, res, next) => {
   page.showMenShop(req, res, next);
 });

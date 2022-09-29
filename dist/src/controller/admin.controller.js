@@ -15,7 +15,6 @@ class AdminController {
         res.render('admin/table', { User: user });
     }
     async find(req, res, keyword) {
-        console.log(keyword);
         let keywords = String(keyword);
         const data = await user_models_1.default.find({ username: { $regex: keywords, $options: "i" } });
         res.status(200).json(data);
