@@ -184,64 +184,34 @@
 
         <div class="container-fluid pt-4 px-4">
             <div class="row">
-                <form action="/admin/product/<%= product._id %>/update" method="post" enctype="multipart/form-data">
+                <form action="/admin/user/update/<%=user._id%>" method="post" enctype="multipart/form-data">
                     <div class="col-sm-12 ">
                         <div class="bg-light rounded h-100 p-4">
-                            <h6 class="mb-4">Floating Label</h6>
+                            <h6 class="mb-4">Update User</h6>
                             <div class="form-floating mb-3">
-                                <input type="text" class="form-control" value="<%= product.name%>" name="name" id=""
-                                       placeholder="Product name ...">
-                                <label for="">Product name</label>
+                                <input type="text" class="form-control" value="<%= user.username%>" name="username" id=""
+                                       placeholder="User name ..." readonly>
+                                <label for="">User name</label>
                             </div>
                             <div class="form-floating mb-3">
-                                <input type="number" class="form-control" value="<%= product.price%>" name="price" id=""
-                                       placeholder="Price ...">
-                                <label for="">Price</label>
+                                <input type="text" class="form-control" value="<%=user.email%>" name="email" id=""
+                                       placeholder="Email ..." readonly>
+                                <label for="">Email</label>
                             </div>
-                            <div class="form-floating mb-3">
-                                <input type="text" class="form-control" value="<%= product.author%>" name="author" id=""
-                                       placeholder="Author">
-                                <label for="">Author</label>
-                            </div>
-                            <div class="form-floating mb-3">
-                                <input type="text" class="form-control" value="<%= product.made_in%>" name="made_in" id=""
-                                       placeholder="Made in ...">
-                                <label for="">Made in</label>
-                            </div>
-                            <div class="form-floating mb-3">
-                                <textarea type="text" class="form-control" name="description" id=""
-                                          placeholder="Write something ..." style="height: 200px; width: 100%"><%= product.description%>
-                                </textarea>
-                                <label for="">Description</label>
-                            </div>
+
                             <div class="form-floating mb-3">
                                 <select class="form-select" id="floatingSelect"
-                                        name="category"
+                                        name="role"
                                         aria-label="Floating label select example">
-                                    <% categories.forEach((item, index)=>{ %>
-                                        <option
+                                        <option value="user" selected>user</option>
+                                        <option value="admin">admin</option>
 
-                                                <% if (item._id + "" == product.category._id + ""){%>
-
-                                                    selected
-                                                <% } %>
-
-                                                value="<%= item._id %>">
-                                            <%= item.name %>
-                                        </option>
-                                    <%})%>
                                 </select>
-                                <label for="floatingSelect">Category</label>
-                            </div>
-                            <div class="form-floating mb-3">
-                                <input type="file" class="form-control" name="image" id=""
-                                       placeholder="Choose image">
-                                <label for="">image</label>
+                                <label for="floatingSelect">Role</label>
                             </div>
                         </div>
                         <div class="form-floating mb-3" style="margin-left: 25px">
-                            <button type="submit" class="btn btn-primary">Add product</button>
-                            <button type="reset" class="btn btn-warning">Clear form</button>
+                            <button type="submit" class="btn btn-primary">Update</button>
                             <a href="/admin/list" class="btn btn-danger">Cancel</a>
                         </div>
                     </div>

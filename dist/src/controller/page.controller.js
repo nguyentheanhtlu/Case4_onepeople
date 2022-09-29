@@ -26,7 +26,7 @@ class PageController {
     }
     ;
     async showShop(req, res, next) {
-        let limit = 10;
+        let limit = 9;
         let offset = 0;
         let page = 1;
         let query = req.query.page;
@@ -67,10 +67,15 @@ class PageController {
     async showProductDetail(req, res, next) {
         let categories = await category_model_1.default.find();
         let product = await products_model_1.default.findById(req.params.id);
-        console.log(product);
+        console.log(categories);
         res.render('product/product-detail', { categories: categories, product: product });
     }
     ;
+    async find(req, res, keyword) {
+        let keywords = String(keyword);
+        const data = await products_model_1.default.find({ name: { $regex: keywords, $options: "i" } });
+        res.status(200).json(data);
+    }
 }
 exports.PageController = PageController;
 //# sourceMappingURL=page.controller.js.map

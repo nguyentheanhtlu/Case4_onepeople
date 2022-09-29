@@ -21,11 +21,15 @@ adminRouter.post('/admin/list',(req, res,next) => {
     })
 });
 adminRouter.get('/admin/user/update/:id',(req, res, next) => {
-    admin.showFormEditUser(req, res, next);
+    admin.showFormEditUser(req, res, next).catch(err=>{
+        console.log(err.message)
+    });
 })
 
 adminRouter.post('/admin/user/update/:id',(req, res, next) => {
-    admin.updateUser(req, res, next);
+    admin.updateUser(req, res, next).catch(err=>{
+        console.log(err.message)
+    });
 })
 
 adminRouter.get('/admin/create/product', (req, res, next) => {
@@ -63,5 +67,7 @@ adminRouter.post('/admin/product/:id/update', (req, res, next)=>{
         console.log(err.message)
     })
 });
+
+
 
 export  default adminRouter;

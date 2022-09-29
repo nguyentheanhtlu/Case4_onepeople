@@ -183,21 +183,9 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="product-pic-zoom">
-                                <img class="product-big-img" src="/product/img/product-single/product-1.jpg" alt="">
+                                <img class="product-big-img" src="/<%= product.image%>" alt="">
                                 <div class="zoom-icon">
                                     <i class="fa fa-search-plus"></i>
-                                </div>
-                            </div>
-                            <div class="product-thumbs">
-                                <div class="product-thumbs-track ps-slider owl-carousel">
-                                    <div class="pt active" data-imgbigurl="/img/product-single/product-1.jpg"><img
-                                                src="/product/img/product-single/product-1.jpg" alt=""></div>
-                                    <div class="pt" data-imgbigurl="/img/product-single/product-2.jpg"><img
-                                                src="/product/img/product-single/product-2.jpg" alt=""></div>
-                                    <div class="pt" data-imgbigurl="/img/product-single/product-3.jpg"><img
-                                                src="/product/img/product-single/product-3.jpg" alt=""></div>
-                                    <div class="pt" data-imgbigurl="/img/product-single/product-3.jpg"><img
-                                                src="/product/img/product-single/product-3.jpg" alt=""></div>
                                 </div>
                             </div>
                         </div>
@@ -217,7 +205,7 @@
                                 </div>
                                 <div class="pd-desc">
                                     <p><%= product.description %></p>
-                                    <h4><%= product.price %></h4>
+                                    <h4><%= product.price %>$</h4>
                                 </div>
                                 <div class="pd-color">
                                     <h6>Color</h6>
@@ -261,8 +249,7 @@
                                     <a href="#" class="primary-btn pd-cart">Add To Cart</a>
                                 </div>
                                 <ul class="pd-tags">
-                                    <li><span>CATEGORIES</span>: More Accessories, Wallets & Cases</li>
-                                    <li><span>TAGS</span>: Clothing, T-shirt, Woman</li>
+                                    <li><span>CATEGORIES: </span><%= categories[0].name %></li>
                                 </ul>
                                 <div class="pd-share">
                                     <div class="p-code">Sku : 00012</div>
@@ -296,15 +283,7 @@
                                         <div class="row">
                                             <div class="col-lg-7">
                                                 <h5>Introduction</h5>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                                                    eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-                                                    ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                                                    aliquip ex ea commodo consequat. Duis aute irure dolor in </p>
-                                                <h5>Features</h5>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                                                    eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-                                                    ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                                                    aliquip ex ea commodo consequat. Duis aute irure dolor in </p>
+                                                <p> <%= product.description %> </p>
                                             </div>
                                             <div class="col-lg-5">
                                                 <img src="/product/img/product-single/tab-desc.jpg" alt="">
@@ -331,7 +310,7 @@
                                             <tr>
                                                 <td class="p-catagory">Price</td>
                                                 <td>
-                                                    <div class="p-price">$495.00</div>
+                                                    <div class="p-price"><%= product.price %>$</div>
                                                 </td>
                                             </tr>
                                             <tr>
