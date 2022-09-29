@@ -9,46 +9,47 @@ import { authLogin } from "../middleware/auth";
 const admin = new AdminController();
 const product = new ProductController();
 
+// adminRouter.use(authLogin)
 
-adminRouter.get('/admin/list', authLogin,(req, res,next) => {
+adminRouter.get('/admin/list',authLogin,(req, res,next) => {
     admin.showAdminPage(req,res,next);
 });
-adminRouter.post('/admin/list',(req, res,next) => {
+adminRouter.post('/admin/list',authLogin,(req, res,next) => {
     let keyword = req.body.keywords;
     admin.find(req,res,keyword)
 });
 
-adminRouter.get('/admin/create/product', (req, res, next) => {
+adminRouter.get('/admin/create/product',authLogin, (req, res, next) => {
     product.formCreateProduct(req,res,next).catch(err=>{
         console.log(err.message)
     });
 });
 
-adminRouter.post('/admin/create/product', (req, res, next)=>{
+adminRouter.post('/admin/create/product',authLogin, (req, res, next)=>{
     product.store(req,res,next).catch(err=>{
         console.log(err.message)
     })
 })
 
-adminRouter.get('/admin/list/product',(req, res, next)=>{
+adminRouter.get('/admin/list/product',authLogin,(req, res, next)=>{
     product.productList(req,res,next).catch(err=>{
         console.log(err.message)
     })
 })
 
-adminRouter.get('/admin/product/:id/delete',(req, res, next)=>{
+adminRouter.get('/admin/product/:id/delete',authLogin,(req, res, next)=>{
     product.deleteProduct(req,res,next).catch(err=>{
         console.log(err.message)
     })
 })
 
-adminRouter.get('/admin/product/:id/update',(req, res, next)=>{
+adminRouter.get('/admin/product/:id/update',authLogin,(req, res, next)=>{
     product.editProduct(req,res,next).catch(err=>{
         console.log(err.message)
     })
 });
 
-adminRouter.post('/admin/product/:id/update', (req, res, next)=>{
+adminRouter.post('/admin/product/:id/update',authLogin, (req, res, next)=>{
     product.edit(req,res,next).catch(err=>{
         console.log(err.message)
     })
