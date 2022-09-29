@@ -4,16 +4,20 @@ dotenv.config();
 
 export const senMail = (to, subject, htmlContent) => {
   const transporter = nodemailer.createTransport({
-    host: process.env.MAIL_HOST,
+    host: 'smtp.gmail.com',
     port: 465,
     secure: true,
     auth: {
-      user: process.env.MAIL_USERNAME,
-      pass: process.env.MAIL_PASSWORD,
+      user: 'hanhngao3010@gmail.com',
+      pass: 'nzvfrxcwnpeitvpn',
     },
+    tls: {
+      // do not fail on invalid certs
+      rejectUnauthorized: false
+  }
   });
   const options = {
-    from: process.env.MAIL_FROM_ADDRESS,
+    from: 'hanhngao3010@gmail.com',
     to: to,
     subject: subject,
     html: htmlContent,

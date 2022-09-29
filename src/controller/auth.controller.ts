@@ -25,7 +25,6 @@ export class authController {
   register = async (req: Request, res: Response) => {
     let user = req.body;
     let Email = user.email;
-    console.log(Email);
     let userByEmail = await User.findOne({ email: Email });
     let userByUsername = await User.findOne({ username: user.username });
     // console.log(userByEmail)
@@ -60,11 +59,11 @@ export class authController {
         phone: '',
       };
       let newUser = await User.create(data, (err, user) => {
-        console.log(user);
+        // console.log(user);
         if (err) {
           console.log(err);
         } else {
-          console.log(Email);
+          console.log( user.email);
           bcrypt
             .hash(user.email, parseInt(process.env.BCRYPT_SALT_ROUND))
             .then((hashedEmail) => {

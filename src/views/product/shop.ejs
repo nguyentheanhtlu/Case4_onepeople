@@ -123,16 +123,16 @@
             <div class="ht-left">
                 <div class="mail-service">
                     <i class="fa fa-envelope"></i>
-                    hello.colorlib@gmail.com
+                    <span id="name-User"></span>
                 </div>
                 <div class="phone-service">
                     <i class="fa fa-phone"></i>
-                    +65 11.188.888
+                    <span id="phones-User"></span>
                 </div>
             </div>
             <div class="ht-right">
                 <a href="/auth/login" class="login-panel"
-                ><i class="fa fa-user"></i>Login</a
+                ><i class="fa fa-user"></i>LogOut</a
                 >
                 <div class="lan-selector">
                     <select
@@ -586,6 +586,33 @@
             success: function (data) {
                 console.log(data);
                 $('#numberCart').html(`${data}`)
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                
+            }
+        })
+    });
+    
+    $( document ).ready(function() {
+        $.ajax({
+            url: '/get-name-user',
+            type: 'POST',
+            success: function (a) {
+                console.log(a);
+                $('#name-User').html(`${a}`)
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                
+            }
+        })
+    });
+    $( document ).ready(function() {
+        $.ajax({
+            url: '/get-phone-user',
+            type: 'POST',
+            success: function (b) {
+                // console.log(b);
+                $('#phones-User').html(`${b}`)
             },
             error: function(jqXHR, textStatus, errorThrown){
                 

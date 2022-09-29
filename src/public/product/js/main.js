@@ -16,7 +16,6 @@
             url: '/get-cart-items',
             type: 'POST',
             success: function (data) {
-                console.log(data);
                 $('#numberCart').html(`${data}`)
             },
             error: function(jqXHR, textStatus, errorThrown){
@@ -24,8 +23,33 @@
             }
         })
     });
-    
 
+    $( document ).ready(function() {
+        $.ajax({
+            url: '/get-name-user',
+            type: 'POST',
+            success: function (a) {
+                $('#name-User').html(`${a}`)
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                
+            }
+        })
+    });
+
+    $( document ).ready(function() {
+        $.ajax({
+            url: '/get-phone-user',
+            type: 'POST',
+            success: function (b) {
+                console.log(b);
+                $('#phones-User').html(`${b}`)
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                
+            }
+        })
+    });
 
 
     /*------------------
