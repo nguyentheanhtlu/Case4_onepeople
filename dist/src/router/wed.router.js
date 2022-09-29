@@ -47,6 +47,9 @@ wedRouter.post("/page/pay", (req, res, next) => {
         let user = await user_models_1.default.findOne({ username: data.username });
         console.log(user.cart_id);
         await user_models_1.default.findOneAndUpdate({ username: data.username }, { address: datas.address, phone: datas.phone });
+        let arr = [];
+        let totlMoney = 0;
+        await cart_models_1.default.findOneAndUpdate({ _id: user.cart_id }, { list: arr, totalMoney: totlMoney });
         res.status(200).json(data);
     });
 });
