@@ -11,6 +11,23 @@
 
 (function ($) {
 
+    $( document ).ready(function() {
+        $.ajax({
+            url: '/get-cart-items',
+            type: 'POST',
+            success: function (data) {
+                console.log(data);
+                $('#numberCart').html(`${data}`)
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                
+            }
+        })
+    });
+    
+
+
+
     /*------------------
         Preloader
     --------------------*/

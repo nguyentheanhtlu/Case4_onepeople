@@ -1,21 +1,31 @@
-import {Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-export const authLogin = (req: Request, res: Response, next: NextFunction) => {
-    let authorization = req.headers['authorization']
-    console.log(authorization);
-    if (authorization) {
-        let accessToken = authorization.split('')[1];
+import { LocalStorage } from 'node-localstorage';
+export const localStorage = new LocalStorage('./scratch')
 
+export const authLogin = (req: any, res: Response, next: NextFunction) => {
+
+    let authorization = localStorage.getItem('token');
+  
+    if (authorization) {
+        let accessToken = authorization
         if (!accessToken) {
             res.status(401).json({ message: "Access token is required1." });
         } else {
-            jwt.verify(accessToken, process.env.SECRET_KEY, (err, data) => {
-                if (err) {
-                    res.status(401).json({ message: "Access token is required2." });
+            let newdata = JSON.parse(accessToken);
+            // console.log(newdata);
+            jwt.verify(newdata.token, process.env.SECRET_KEY, (err, data) => {
+                if (newdata.role === "admin") {
+                    if (err) {
+                        res.status(401).json({ message: "Access token is required2." });
+                    } else {
+                        req.decoded = data;
+                        next();
+                    }
                 } else {
-                    // req.decoded = data;
-                    next();
-                }
+                    res.render('product/login/404')
+               }
+              
             })
         }
     }
